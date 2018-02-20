@@ -48,29 +48,27 @@
 }
 
 
-   .container {
-     display: inline-block;
-   }
-   .button-vote {
-      float:left;
-    padding-left: 50%;
-    padding: 0px 0px 0px 16px !important;
-    border: none;
-    vertical-align: middle;
-    height: 48px;
-    line-height: 48px;
-   }
+.container {
+  display: inline-block;
+}
+.button-vote {
+  float:left;
+  padding-left: 50%;
+  padding: 0px 0px 0px 16px !important;
+  border: none;
+  vertical-align: middle;
+  height: 48px;
+  line-height: 48px;
+}
 
 .new-post {
   position: fixed;
   right: 25px;
-  bottom: 25px;
+  bottom: 50px;
+  color:#818181
 }
 
-.new-post {
-  background: #80ced6;
-  border-radius: 50%;
-}
+
 
 
 
