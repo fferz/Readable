@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Route} from 'react-router-dom'
 import AddPostIcon from 'react-icons/lib/fa/plus-circle'
+import GoHomeIcon from 'react-icons/lib/fa/home'
 import NewPost from './NewPost.js'
 import Post from './Post.js'
 import './App.css'
@@ -77,6 +78,13 @@ class App extends Component {
                   to="/create"
                   className="add-post"
                 ><AddPostIcon size={50} />
+              </Link>
+            </div>
+            <div className="to-home">
+              <Link
+                  to="/"
+                  className="home"
+                ><GoHomeIcon size={50} />
               </Link>
             </div>
 

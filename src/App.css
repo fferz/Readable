@@ -76,6 +76,12 @@
   bottom: 50px;
 }
 
+.to-home {
+  position: fixed;
+  right: 80px;
+  bottom: 50px;
+}
+
 /* post form */
 .new-post-content {
   padding-top: 50px;
