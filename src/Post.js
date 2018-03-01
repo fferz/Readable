@@ -6,7 +6,7 @@ import CommentsIcon from 'react-icons/lib/fa/comment-o'
 import './App.css'
 
 const Post = (props) => {
-
+    console.log('props (Post.js)', props)
    return(
        <div className="post-content">
            {props.posts.map((post) => 
