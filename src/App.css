@@ -89,7 +89,7 @@
   font-family: sans-serif;
   font-size: 25px;
 }
-.input-form, select, textarea {
+input, select, textarea {
   width: 95%;
   border: 2px solid #F3EEED;
   border-radius: 10px;
@@ -108,7 +108,7 @@ select:focus {
     outline: none;
 }
 
-input[type=button] {
+button {
     background-color: grey;
     border: none;
     color: white;

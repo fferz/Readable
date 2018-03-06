@@ -1,4 +1,6 @@
 import { UPVOTE_COMMENT, DOWNVOTE_COMMENT, SAVEPOST_INSTORE } from '../actions'
+import { reducer as formReducer } from 'redux-form'
+import { combineReducers } from 'redux'
 
 const initialPostState = {
     posts: []
@@ -42,4 +44,7 @@ function postReducer (state = initialPostState, action) {
 
 //export default vote;
 
-export default postReducer;
+export default combineReducers({
+    postReducer,
+    form: formReducer,
+});

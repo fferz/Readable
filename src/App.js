@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { upvoteComment, downvoteComment,fetchPosts } from './actions' 
 import AddPostIcon from 'react-icons/lib/fa/plus-circle'
 import GoHomeIcon from 'react-icons/lib/fa/home'
-import NewPost from './NewPost.js'
+import PostForm from './PostForm.js'
 import Post from './Post.js'
 import './App.css'
 
@@ -64,7 +64,7 @@ class App extends Component {
             )}/>
             
             <Route path="/create" render={() => (
-                <NewPost
+                <PostForm
                   categories={this.state.categories} />
             )}/>
 
