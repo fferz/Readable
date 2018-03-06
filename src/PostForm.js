@@ -13,10 +13,10 @@ const PostForm = props => {
         <div className="new-post-content">
             <form id="new-post-formId" onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="postTitle" className="label-form">Title</label>
+                    <label htmlFor="title" className="label-form">Title</label>
                     <div>
                         <Field
-                            name="postTitle"
+                            name="title"
                             component="input"
                             type="text"
                             placeholder="title"
@@ -25,10 +25,10 @@ const PostForm = props => {
                 </div>
                     
                 <div>
-                    <label htmlFor="postAuthor">Author</label>
+                    <label htmlFor="author">Author</label>
                     <div>
                         <Field
-                            name="postAuthor"
+                            name="author"
                             component="input"
                             type="text"
                             placeholder="author"
@@ -37,9 +37,9 @@ const PostForm = props => {
                 </div>
                 
                 <div>
-                    <label htmlFor="postCategory">Category</label>
+                    <label htmlFor="category">Category</label>
                     <div>
-                        <Field name="postCategory" component="select">
+                        <Field name="category" component="select">
                             <option />
                             {props.categories.map((cat)=>
                                 <option value={cat.name} key={cat.name}>{cat.name}</option>)}
@@ -48,10 +48,10 @@ const PostForm = props => {
                 </div>
                          
                 <div>
-                    <label htmlFor="postBody">Text</label>
+                    <label htmlFor="body">Text</label>
                     <div>
                         <Field
-                            name="postBody"
+                            name="body"
                             component="textarea"
                             type="text"
                             placeholder=""
@@ -68,7 +68,7 @@ const PostForm = props => {
 
     )
   }
-
+/*
 const onSubmit = (values, dispatch) => {
         
         console.log('dispatch', dispatch)
@@ -82,16 +82,19 @@ const newId = () => {
     return Math.trunc(Math.random()*10000)
 }
 
-/*
+
 function mapDispatchToProps(dispatch){
   return {
     addNewPost: (newPost) => dispatch(addPostInStore(newPost)),
   }
 }
-*/
+
 export default connect()(reduxForm({
     form: 'formId-postForm',
     onSubmit,
 })(PostForm));
+*/
 
-
+export default reduxForm({
+    form: 'post-form-id'
+})(PostForm)

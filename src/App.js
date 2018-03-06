@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Route} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { upvoteComment, downvoteComment,fetchPosts } from './actions' 
+import { upvoteComment, downvoteComment,fetchPosts,newPostToStore } from './actions' 
 import AddPostIcon from 'react-icons/lib/fa/plus-circle'
 import GoHomeIcon from 'react-icons/lib/fa/home'
 import PostForm from './PostForm.js'
@@ -30,13 +30,27 @@ class App extends Component {
       .then(res => res.json())
       .then(categories => {this.setState({ categories: categories.categories })}
       )
-
   }
 
+  submit = values => {
+    values.id = this.newId().toString()
+    values.timeStamp = Date.now()
+    values.commentCount = 0
+    values.deleted = false
+    values.voteScore = 0
+    console.log('values', values)
+    this.props.addPostToStore(values)
+  }
+
+  newId = () => {
+    return Math.trunc(Math.random()*10000)
+  }
 
   render() {
     console.log('Props (render App)', this.props)
     
+    let totalPost = this.props.postReducer.posts.concat(this.props.postReducer.newPosts)
+
     var i =1
     return (
       <div className="app-container">
@@ -58,21 +72,22 @@ class App extends Component {
             <Route exact path="/" render={() => (
               <div>
                 <h1>Posts</h1>
-                <Post posts={this.props.posts} />
+                <Post posts={totalPost} />
                 
               </div>
             )}/>
             
             <Route path="/create" render={() => (
                 <PostForm
-                  categories={this.state.categories} />
+                  categories={this.state.categories}
+                  onSubmit={this.submit} />
             )}/>
 
             {/* Route Params */}
             <Route path="/category/:categoryName" render={({ match }) => (
               <div> 
                 <h1>{match.params.categoryName}</h1>
-                <Post posts={this.props.posts.filter((post) => post.category === match.params.categoryName )} />
+                <Post posts={this.props.postReducer.posts.filter((post) => post.category === match.params.categoryName )} />
               </div>  
             )} />
 
@@ -110,6 +125,7 @@ function mapDispatchToProps(dispatch){
     //upVote: (data) => dispatch(upvoteComment(data)),
     //downVote: (data) => dispatch(downvoteComment(data)),
     savePosts: () => dispatch(fetchPosts()),
+    addPostToStore: (newPost) => dispatch(newPostToStore(newPost))
   }
 }
 
