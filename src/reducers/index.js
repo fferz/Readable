@@ -1,4 +1,4 @@
-import { UPVOTE_COMMENT, DOWNVOTE_COMMENT, SAVEPOST_INSTORE, ADDPOST_TOSTORE } from '../actions'
+import { UPVOTE_COMMENT, DOWNVOTE_COMMENT, SAVEPOST_INSTORE, ADDPOST_TOSTORE, DELETEPOST_FROMSTORE } from '../actions'
 import { reducer as formReducer } from 'redux-form'
 import { combineReducers } from 'redux'
 
@@ -8,7 +8,7 @@ const initialPostState = {
 }
 
 function postReducer (state = initialPostState, action) {
-    const { postList, newPost } = action
+    const { postList, newPost, postId } = action
     switch (action.type) {
         case SAVEPOST_INSTORE : //va en reducer posts
         console.log('initial store', initialPostState)
@@ -19,6 +19,12 @@ function postReducer (state = initialPostState, action) {
             return { 
                 ...state,
                 newPosts: state.newPosts.concat(newPost)
+            }
+        case DELETEPOST_FROMSTORE :
+        console.log('delete post (reducer)', postId)
+            return {
+                posts: state.posts.filter(post => postId !== post.id),
+                newPosts: state.newPosts.filter(post => postId !== post.id)
             }
         default :
             return state

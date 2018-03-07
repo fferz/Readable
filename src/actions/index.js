@@ -2,6 +2,7 @@ export const UPVOTE_COMMENT = 'UPVOTE_COMMENT'
 export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT'
 export const SAVEPOST_INSTORE = 'SAVEPOST_INSTORE'
 export const ADDPOST_TOSTORE = 'ADDPOST_TOSTORE'
+export const DELETEPOST_FROMSTORE = 'DELETEPOST_FROMSTORE'
 
 export function upvoteComment({ votes, postId }) {
     return {
@@ -35,6 +36,28 @@ export function addPostToStore( newPost ){
     }
 }
 
+export function deletePostFromStore( postId ){
+    console.log('accion delete post', postId)
+    return {
+        type: DELETEPOST_FROMSTORE,
+        postId,
+    }
+}
+
+export function deletePost( postId ){
+    return function(dispatch){
+        fetch(`/posts/${postId}`,{
+            method: 'DELETE',
+            headers: { 'Authorization': 'posts-deletePost' },
+        }
+        ).then(res => {res.json(), console.log('res', res)})     
+         .then(posts =>  {dispatch(deletePostFromStore( postId ))
+            }
+        )
+    }
+}
+
+//this does not work, I don't know why :(, please help me!
 export function newPostToStore( newPost ){
     return function(dispatch){
         fetch('http://localhost:3001/posts',{
@@ -63,15 +86,6 @@ export function fetchPosts(){
     }
 }
 
-/*
-.then(posts =>  { 
-            console.log('posts (fetchPosts - action)', posts)
-            let arrayToObj = arrayToObject( posts )
-            console.log('posts (object - action)', arrayToObj)
-            dispatch(savePostInStore(arrayToObj))
-            }
-        )
-*/
 
 const arrayToObject = (array) => {
     console.log('entro a la funcion arrayToObj', array)
