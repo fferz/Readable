@@ -3,6 +3,8 @@ export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT'
 export const SAVEPOST_INSTORE = 'SAVEPOST_INSTORE'
 export const ADDPOST_TOSTORE = 'ADDPOST_TOSTORE'
 export const DELETEPOST_FROMSTORE = 'DELETEPOST_FROMSTORE'
+export const UPVOTE_POST = 'UPVOTE_POST'
+export const DOWNVOTE_POST = 'DOWNVOTE_POST'
 
 export function upvoteComment({ votes, postId }) {
     return {
@@ -41,6 +43,50 @@ export function deletePostFromStore( postId ){
     return {
         type: DELETEPOST_FROMSTORE,
         postId,
+    }
+}
+
+export function upVotePost(post){
+    console.log('accion upvote post', post)
+    return {
+        type: UPVOTE_POST,
+        post,
+        voteScore: post.voteScore,
+    }
+}
+
+export function downVotePost(post){
+    console.log('accion downvote post', post)
+    return {
+        type: DOWNVOTE_POST,
+        post,
+        voteScore: post.voteScore,
+    }
+}
+
+export function likePost(post){
+    return function(dispatch){
+        fetch(`/posts/${post.id}`,{
+            method: 'POST',
+            headers: { 'Authorization': 'posts-downvotePost' },
+        }
+        ).then(res => res.json())     
+         .then(posts =>  {dispatch(upVotePost( post ))
+            }
+        )
+    }
+}
+
+export function notLikePost(post){
+    return function(dispatch){
+        fetch(`/posts/${post.id}`,{
+            method: 'POST',
+            headers: { 'Authorization': 'posts-upvotePost' },
+        }
+        ).then(res => res.json())     
+         .then(posts =>  {dispatch(downVotePost( post ))
+            }
+        )
     }
 }
 

@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Route} from 'react-router-dom'
 import { connect } from 'react-redux'
+import { initialize } from 'redux-form';
 import { upvoteComment, downvoteComment, fetchPosts, newPostToStore } from './actions' 
 import AddPostIcon from 'react-icons/lib/fa/plus-circle'
 import GoHomeIcon from 'react-icons/lib/fa/home'
-import PostForm from './PostForm.js'
+import PostFormContainer from './PostFormContainer.js'
 import Post from './Post.js'
 import './App.css'
 
@@ -30,16 +31,6 @@ class App extends Component {
       .then(res => res.json())
       .then(categories => {this.setState({ categories: categories.categories })}
       )
-  }
-
-  submit = values => {
-    values.id = this.newId().toString()
-    values.timeStamp = Date.now()
-    values.commentCount = 0
-    values.deleted = false
-    values.voteScore = 0
-    console.log('values', values)
-    this.props.addPostToStore(values)
   }
 
   newId = () => {
@@ -79,9 +70,9 @@ class App extends Component {
             )}/>
             
             <Route path="/create" render={() => (
-                <PostForm
+                <PostFormContainer
                   categories={this.state.categories}
-                  onSubmit={this.submit} />
+                 />
             )}/>
 
             {/* Route Params */}
@@ -91,6 +82,13 @@ class App extends Component {
                 <Post posts={totalPost.filter((post) => post.category === match.params.categoryName )} />
               </div>  
             )} />
+
+            <Route path="/edit" render={() => (
+                <PostFormContainer
+                  categories={this.state.categories}
+                  postData={this.props.location.state && this.props.location.state.postData}
+                 />
+            )}/>
 
             <div className="new-post">
               <Link

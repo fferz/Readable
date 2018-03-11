@@ -5,22 +5,41 @@ import { connect } from 'react-redux'
 import './App.css'
 
 
-const PostForm = props => {
-    const { handleSubmit } = props
+class PostForm extends React.Component {
 
+    handleInitialize(){
+        if (this.props.postData){
+            const initData = {
+                title: this.props.postData.title,
+                author: this.props.postData.author,
+                category: this.props.postData.category,
+                body: this.props.postData.body,
+            }
+            console.log('initData loaded in PostForm', initData)
+            this.props.initialize(initData)
+        }
+    }
 
+    componentDidMount(){
+        this.handleInitialize();
+    }
+
+    render(){
+        const { handleSubmit } = this.props
+        console.log('postData en PostForm', this.props)
     return (
         <div className="new-post-content">
             <form id="new-post-formId" onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="title" className="label-form">Title</label>
                     <div>
-                        <Field
+                        <Field 
                             name="title"
                             component="input"
                             type="text"
                             placeholder="title"
-                        />
+                        >
+                        </Field>
                     </div>
                 </div>
                     
@@ -32,7 +51,8 @@ const PostForm = props => {
                             component="input"
                             type="text"
                             placeholder="author"
-                        />
+                        >
+                        </Field>
                     </div>
                 </div>
                 
@@ -41,7 +61,7 @@ const PostForm = props => {
                     <div>
                         <Field name="category" component="select">
                             <option />
-                            {props.categories.map((cat)=>
+                            {this.props.categories.map((cat)=>
                                 <option value={cat.name} key={cat.name}>{cat.name}</option>)}
                         </Field>
                     </div>
@@ -55,7 +75,8 @@ const PostForm = props => {
                             component="textarea"
                             type="text"
                             placeholder=""
-                        />
+                        >
+                        </Field>
                     </div>
                 </div>
 
@@ -67,8 +88,8 @@ const PostForm = props => {
         </div>
 
     )
-  }
-/*
+  }}
+/*}
 const onSubmit = (values, dispatch) => {
         
         console.log('dispatch', dispatch)
@@ -96,5 +117,7 @@ export default connect()(reduxForm({
 */
 
 export default reduxForm({
-    form: 'post-form-id'
+    form: 'post-form-id',
+    fields: ['title', 'author', 'category', 'body'],
+    enableReinitialize : true,
 })(PostForm)
