@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Route} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { initialize } from 'redux-form';
-import { upvoteComment, downvoteComment, fetchPosts, newPostToStore } from './actions' 
+import { upvoteComment, downvoteComment, fetchPosts } from './actions' 
 import AddPostIcon from 'react-icons/lib/fa/plus-circle'
 import GoHomeIcon from 'react-icons/lib/fa/home'
 import PostFormContainer from './PostFormContainer.js'
@@ -40,7 +40,7 @@ class App extends Component {
   render() {
     console.log('Props (render App)', this.props)
     
-    let totalPost = this.props.postReducer.posts.concat(this.props.postReducer.newPosts)
+    //let totalPost = this.props.postReducer.posts.concat(this.props.postReducer.newPosts)
 
     var i =1
     return (
@@ -64,7 +64,7 @@ class App extends Component {
               <div>
                 <h1>Posts</h1>
                 <Post 
-                  posts={totalPost} />
+                  posts={this.props.postReducer.posts} />
                 
               </div>
             )}/>
@@ -79,7 +79,7 @@ class App extends Component {
             <Route path="/category/:categoryName" render={({ match }) => (
               <div> 
                 <h1>{match.params.categoryName}</h1>
-                <Post posts={totalPost.filter((post) => post.category === match.params.categoryName )} />
+                <Post posts={this.props.postReducer.posts.filter((post) => post.category === match.params.categoryName )} />
               </div>  
             )} />
 
@@ -115,16 +115,12 @@ class App extends Component {
 function mapStateToProps (state){
   
   console.log('state (mapstateToProps)', state)
-  //let array = Object.values(postReducer)
   return state
 
 }
 function mapDispatchToProps(dispatch){
   return {
-    //upVote: (data) => dispatch(upvoteComment(data)),
-    //downVote: (data) => dispatch(downvoteComment(data)),
     savePosts: () => dispatch(fetchPosts()),
-    addPostToStore: (newPost) => dispatch(newPostToStore(newPost)),
   }
 }
 

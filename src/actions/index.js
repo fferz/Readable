@@ -5,6 +5,7 @@ export const ADDPOST_TOSTORE = 'ADDPOST_TOSTORE'
 export const DELETEPOST_FROMSTORE = 'DELETEPOST_FROMSTORE'
 export const UPVOTE_POST = 'UPVOTE_POST'
 export const DOWNVOTE_POST = 'DOWNVOTE_POST'
+export const EDIT_POST = 'EDIT_POST'
 
 export function upvoteComment({ votes, postId }) {
     return {
@@ -63,6 +64,29 @@ export function downVotePost(post){
         voteScore: post.voteScore,
     }
 }
+
+export function editPost(post){
+    console.log('accion edit post', post)
+    return {
+        type: EDIT_POST,
+        post,
+    }
+}
+
+/*
+export function changePost(post){
+    return function(dispatch){
+        fetch(`/posts/${post.id}`,{
+            method: 'PUT',
+            body: JSON.stringify({post}),
+            headers: { 'Authorization': 'posts-changePost' },
+        }
+        ).then(res => res.json())     
+         .then(posts =>  {dispatch(editPost( post ))
+            }
+        )
+    }
+}*/
 
 export function likePost(post){
     return function(dispatch){

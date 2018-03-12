@@ -39,7 +39,7 @@ class Post extends Component{
                                     </button>
                                 </div>
                                 <div className="button-vote">
-                                    <Link to={{ pathname: `/edit`,
+                                    <Link to={{ pathname: '/edit',
                                                 state: {postData: post} }}>
                                         <button>edit</button>
                                     </Link>
@@ -51,19 +51,9 @@ class Post extends Component{
                             </div>
                         </div>
                 )}
-
-
-            <Route path={`/edit/:id`} render={()=>
-                <div><h1>hola</h1></div>}/>
         </div>
         
     )}}
-
-/*
-<Link 
-                                        to={{ pathname: `/edit/${post.id}`,
-                                            state: {postData: post}
-                                            }}>*/
 
 function mapStateToProps (state){
   
@@ -78,7 +68,6 @@ function mapDispatchToProps(dispatch){
     deletePost: (postId) => dispatch(deletePostFromStore(postId)),
     upVotePost: (post) => dispatch(likePost(post)),
     downVotePost: (post) => dispatch(notLikePost(post)),
-    //editPort: (post) => dispatch(changePost(post)),
   }
 }
 

@@ -14,6 +14,10 @@ class PostForm extends React.Component {
                 author: this.props.postData.author,
                 category: this.props.postData.category,
                 body: this.props.postData.body,
+                commentCount:this.props.postData.commentCount,
+                deleted: false,
+                id: this.props.postData.id,
+                voteScore: this.props.postData.voteScore,
             }
             console.log('initData loaded in PostForm', initData)
             this.props.initialize(initData)
@@ -89,35 +93,22 @@ class PostForm extends React.Component {
 
     )
   }}
-/*}
-const onSubmit = (values, dispatch) => {
-        
-        console.log('dispatch', dispatch)
-        values.id = newId().toString()
-        values.timeStamp = Date.now()
-        console.log('values', values)
-        return values;
-    }
-
-const newId = () => {
-    return Math.trunc(Math.random()*10000)
-}
-
-
+/*
 function mapDispatchToProps(dispatch){
   return {
     addNewPost: (newPost) => dispatch(addPostInStore(newPost)),
   }
-}
+}*/
 
 export default connect()(reduxForm({
     form: 'formId-postForm',
-    onSubmit,
+    fields: ['title', 'author', 'category', 'body', 'commentedCount', 'deleted', 'id', 'voteScore'],
+    
 })(PostForm));
-*/
 
-export default reduxForm({
+
+/*export default reduxForm({
     form: 'post-form-id',
     fields: ['title', 'author', 'category', 'body'],
     enableReinitialize : true,
-})(PostForm)
+})(PostForm)*/

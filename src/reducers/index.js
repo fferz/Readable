@@ -1,11 +1,12 @@
 import { UPVOTE_COMMENT, DOWNVOTE_COMMENT, SAVEPOST_INSTORE, ADDPOST_TOSTORE, DELETEPOST_FROMSTORE } from '../actions'
-import { UPVOTE_POST, DOWNVOTE_POST } from '../actions'
+import { UPVOTE_POST, DOWNVOTE_POST, EDIT_POST } from '../actions'
 import { reducer as formReducer } from 'redux-form'
 import { combineReducers } from 'redux'
 
 const initialPostState = {
     posts: [],
-    newPosts: [],
+    //newPosts: [],
+    editPost: null,
 }
 
 function postReducer (state = initialPostState, action) {
@@ -26,7 +27,7 @@ function postReducer (state = initialPostState, action) {
         console.log('delete post (reducer)', postId)
             return {
                 posts: state.posts.filter(post => postId !== post.id),
-                newPosts: state.newPosts.filter(post => postId !== post.id)
+                //newPosts: state.newPosts.filter(post => postId !== post.id)
             }
         case UPVOTE_POST :
         console.log('upvote post (reducer)', post)
@@ -39,6 +40,12 @@ function postReducer (state = initialPostState, action) {
             return {
                 ...state,
 
+            }
+        case EDIT_POST :
+        console.log('edit post (reducer)', post)
+        let newState = state.posts.filter(p => p.id !== post.id)
+            return {
+                posts: newState.concat(post)
             }
         default :
             return state
