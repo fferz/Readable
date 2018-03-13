@@ -37,6 +37,10 @@ class App extends Component {
     return Math.trunc(Math.random()*10000)
   }
 
+  orderFunction = (a,b) => {
+    return a - b
+  }
+
   render() {
     console.log('Props (render App)', this.props)
     
@@ -56,6 +60,17 @@ class App extends Component {
                       </Link>
                     {i=i+1}
                 </div>)}
+                <hr />
+                <Link
+                  to={`/most-voted`}
+                  className="link-most-voted"
+                    >most voted
+                </Link>
+                <Link
+                  to={`/most-recent`}
+                  className="link-most-recent"
+                    >most recent
+                </Link>
         </div>
 
           <div className="content">
@@ -89,6 +104,35 @@ class App extends Component {
                   postData={this.props.location.state && this.props.location.state.postData}
                  />
             )}/>
+
+            <Route path="/most-voted" render={() => (
+              <div>
+                <h1>the most voted posts</h1>
+                
+                <Post
+                  posts={[].concat(this.props.postReducer.posts).sort(
+                    function(a,b){
+                      if (a.voteScore < b.voteScore){ return 1};
+                      if (a.voteScore > b.voteScore){ return -1};
+                      return 0;
+                    }
+                  )} />
+              </div>
+            )} />
+
+            <Route path="/most-recent" render={() => (
+              <div>
+                <h1>the most recent posts</h1>
+                <Post
+                  posts={[].concat(this.props.postReducer.posts).sort(
+                    function(a,b){
+                      if (a.timestamp < b.timestamp){ return 1};
+                      if (a.timestamp > b.timestamp){ return -1};
+                      return 0;
+                    }
+                  )} />
+              </div>
+            )} />
 
             <div className="new-post">
               <Link

@@ -7,16 +7,17 @@ import PostForm from './PostForm.js';
 class PostFormContainer extends React.Component {
 
   handleSubmit = values => {
-    if (values.id !== null) {
+    if (values.id !== undefined) {
       values.timeStamp = Date.now()
       console.log('voy a editPost', values)
       this.props.editPost(values)
     } else {
       values.id = this.newId().toString()
-      values.timeStamp = Date.now()
+      values.timestamp = Date.now()
       values.commentCount = 0
       values.deleted = false
       values.voteScore = 0
+      console.log('voy a create new post', values)
       this.props.addPostToStore(values)
     }
     
