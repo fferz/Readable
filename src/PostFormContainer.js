@@ -8,7 +8,7 @@ class PostFormContainer extends React.Component {
 
   handleSubmit = values => {
     if (values.id !== undefined) {
-      values.timeStamp = Date.now()
+      values.timestamp = Date.now()
       console.log('voy a editPost', values)
       this.props.editPost(values)
     } else {

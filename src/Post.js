@@ -18,33 +18,38 @@ class Post extends Component{
         return(
         <div className="post-content">
 
+            {/* y si guardo en el estado de app el postDataView?*/}
+
                 {this.props.posts.map((post) =>
                     <div key={post.id}> 
-                            <div className="post-title">{post.title}</div>
+                            <div className="post-title">
+                                <Link to={{ pathname: `/post/postView`, state: {postDataView: post} }}>
+                                    {post.title}
+                                </Link>
+                            </div>
                             <div className="post-author">{post.author}</div>
                             <div className="post-category">category:{post.category}</div> 
                             <div className="post-container">
-                                <div className="button-vote">
+                                <div className="post-element">
                                     <CommentsIcon size={20} />
                                     {post.commentCount}</div>
-                                <div className="button-vote">
+                                <div className="post-element">
                                     <button onClick={()=>this.props.upVotePost(post)}>
                                     <UpVoteIcon size={20} />
                                     </button>
                                 </div>
-                                <div className="button-vote">{post.voteScore}</div>
-                                <div className="button-vote">
+                                <div className="post-element">{post.voteScore}</div>
+                                <div className="post-element">
                                     <button onClick={()=>this.props.downVotePost(post)}>
                                         <DownVoteIcon size={20} />
                                     </button>
                                 </div>
-                                <div className="button-vote">
-                                    <Link to={{ pathname: '/edit',
-                                                state: {postData: post} }}>
+                                <div className="post-element">
+                                    <Link to={{ pathname: '/edit', state: {postData: post} }}>
                                         <button>edit</button>
                                     </Link>
                                 </div>
-                                <div className="button-vote">
+                                <div className="post-element">
                                     <button 
                                         onClick={()=>this.props.deletePost(post.id)}>delete</button>
                                 </div>

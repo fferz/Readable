@@ -58,9 +58,10 @@
 .post-container {
   display: inline-block;
   width: 100%;
+  padding-bottom: 20px;
 }
 
-.button-vote {
+.post-element {
   float:left;
   padding-left: 50%;
   padding: 0px 0px 0px 16px !important;
@@ -124,6 +125,61 @@ input[type=button]:focus {
   border: 3px solid black;
   outline: none;
 }
+
+/* PostView */
+
+.post-view-content {
+  font-family: sans-serif;
+  font-size : 20px;
+}
+
+.author, .category {
+  color: #818181;
+  font-family: sans-serif;
+}
+
+.post-view-author, .post-view-category, .post-view-body {
+  padding-bottom: 15px;
+}
+
+.post-view-comments {
+  font-size : 20px;
+}
+
+.comment-body {
+  color: #1048BF;
+}
+
+.comment-author {
+  font-size: 17px;
+}
+.comment-author-author {
+  color: #818181;
+}
+
+.comment-button {
+  padding: 5px 10px;
+  font-size: 18px;
+  background-color: #A9D0F5;
+}
+
+/* comment form */
+
+.comment-form {
+
+}
+
+input {
+  width: 40%;
+  border: 2px solid #F3EEED;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: sans-serif;
+  font-size: 20px;
+  color: #1048BF;
+  margin-bottom: 20px;
+}
+
 
 
 

@@ -8,14 +8,12 @@ import AddPostIcon from 'react-icons/lib/fa/plus-circle'
 import GoHomeIcon from 'react-icons/lib/fa/home'
 import PostFormContainer from './PostFormContainer.js'
 import Post from './Post.js'
+import PostView from './components/PostView'
 import './App.css'
 
 class App extends Component {
   state = {
-    posts : [],
     categories : [],
-    votes : null,
-    postId: null,
   }
 
   componentDidMount(){
@@ -104,6 +102,12 @@ class App extends Component {
                   postData={this.props.location.state && this.props.location.state.postData}
                  />
             )}/>
+
+            <Route path="/post/postView" render={() => (
+                <PostView 
+                  postDataView={this.props.location.state.postDataView}
+                />
+            )} />
 
             <Route path="/most-voted" render={() => (
               <div>
