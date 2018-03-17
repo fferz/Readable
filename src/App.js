@@ -6,14 +6,15 @@ import { initialize } from 'redux-form';
 import { upvoteComment, downvoteComment, fetchPosts } from './actions' 
 import AddPostIcon from 'react-icons/lib/fa/plus-circle'
 import GoHomeIcon from 'react-icons/lib/fa/home'
-import PostFormContainer from './PostFormContainer.js'
-import Post from './Post.js'
+import PostFormContainer from './components/PostFormContainer.js'
+import Post from './components/Post.js'
 import PostView from './components/PostView'
 import './App.css'
 
 class App extends Component {
   state = {
     categories : [],
+    postOpened: null,
   }
 
   componentDidMount(){
@@ -41,6 +42,7 @@ class App extends Component {
 
   render() {
     console.log('Props (render App)', this.props)
+    console.log('State (render App)', this.state)
     
     //let totalPost = this.props.postReducer.posts.concat(this.props.postReducer.newPosts)
 
@@ -103,9 +105,10 @@ class App extends Component {
                  />
             )}/>
 
-            <Route path="/post/postView" render={() => (
+            <Route path="/post/post-view" render={() => (
+                console.log('ROUTE post view',this.props.location.state),
                 <PostView 
-                  postDataView={this.props.location.state.postDataView}
+                  postDataView={this.props.location.state && this.props.location.state.postDataView}
                 />
             )} />
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { initialize } from 'redux-form';
-import { newPostToStore, editPost } from './actions' 
-import PostForm from './PostForm.js';
+import { newPostToStore, editPost } from '../actions' 
+import PostForm from './PostForm';
 
 class PostFormContainer extends React.Component {
 

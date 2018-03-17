@@ -57,7 +57,7 @@ export function addComment( postId, newComment ){
 
 export function changeComment(comment){
     return function(dispatch){
-        fetch(`/comments/:${comment.id}`,{
+        fetch(`/comments/${comment.id}`,{
             method: 'PUT',
             body: JSON.stringify({comment}),
             headers: { 'Authorization': 'editComment' },
@@ -82,7 +82,7 @@ export function editComment(comment){
 
 export function eraseComment( commentId ){
     return function(dispatch){
-        fetch(`/comments/:${commentId}`,{
+        fetch(`/comments/${commentId}`,{
             method: 'DELETE',
             headers: { 'Authorization': 'delete-comment' },
         }
@@ -105,7 +105,7 @@ export function deleteComment( commentId ){
 
 export function likeComment(comment){
     return function(dispatch){
-        fetch(`/comments/:${comment.id}`,{
+        fetch(`/comments/${comment.id}`,{
             method: 'POST',
             body: {option: 'upVote'},
             headers: { 'Authorization': 'upvoteComment' },
@@ -129,7 +129,7 @@ export function upVoteComment({ votes, commentId }) {
 
 export function notLikeComment(comment){
     return function(dispatch){
-        fetch(`/comments/:${comment.id}`,{
+        fetch(`/comments/${comment.id}`,{
             method: 'POST',
             body: {option: 'downVote'},
             headers: { 'Authorization': 'upvoteComment' },

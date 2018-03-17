@@ -7,17 +7,23 @@ import UpVoteIcon from 'react-icons/lib/fa/hand-o-up'
 import CommentsIcon from 'react-icons/lib/fa/comment-o'
 import { deletePostFromStore, likePost, notLikePost } from '../actions'
 import { fetchComments, newComment, changeComment, eraseComment, likeComment, notLikeComment } from '../actions/CommentsAction'
+import { fetchAPost } from '../actions/index'
 import CommentForm from './CommentForm'
 
 class PostView extends Component{
 
     state = {
         comments : [],
+        newCommentFlag : false,
+        post: null,
     }
 
     componentDidMount(){
 
-        this.props.saveComments(this.props.postDataView.id);
+        console.log('component DID mount')
+        this.props.saveAPost(this.props.postDataView.id)
+        this.props.saveComments(this.props.postDataView.id)
+        
     }
 
     handleSave = values => {
@@ -25,6 +31,7 @@ class PostView extends Component{
             values.timestamp = Date.now()
             this.props.editComment(values)
         } else { 
+            this.showNewCommentButton
             console.log('creo nuevo commentario', values)
             values.deleted = false
             values.id = this.newId().toString()
@@ -38,14 +45,40 @@ class PostView extends Component{
 
     newId = () => {
     return Math.trunc(Math.random()*10000)
-  }
+    }
+
+    showNewCommentForm = () => {
+        this.setState({newCommentFlag : true})
+    }
+
+    showNewCommentButton = () => {
+        this.setState({newCommentFlag : false})
+    }
+
 
     render(){
         console.log('props (PostView)', this.props.postDataView)
-        console.log('state', this.props.state)
+        console.log('state (PostView)', this.props.state)
+        console.log('props.state', this.props)
+        console.log('EL POST', this.props.postReducer.post)
 
-        const post  = this.props.postDataView 
+        const post  = this.props.postDataView ? this.props.postDataView : this.props.postReducer.post
 
+        let showCreateComment = null
+        if (this.state.newCommentFlag === false) {
+            
+            showCreateComment = <Link to={{ pathname: `/post/post-view`, state: {postDataView: post} }}>
+                                    <button className="comment-button" onClick={this.showNewCommentForm}>
+                                        new comment
+                                    </button>           
+                                </Link>
+            
+        } else {
+            this.showNewCommentButton
+            showCreateComment = <CommentForm 
+                                    onSubmit={this.handleSave.bind(this)}/>
+        }
+        
         return(
             <div className="post-view-content">
                 <div className="post-view-title">
@@ -140,9 +173,10 @@ class PostView extends Component{
 
                         </div>
                     )}
-                    <CommentForm 
-                        onSubmit={this.handleSave.bind(this)}/>
                     
+                    <div>
+                        {showCreateComment}
+                    </div>
                 </div>
             </div>
 
@@ -156,10 +190,12 @@ function mapStateToProps (state){
   //let array = Object.values(postReducer)
   return state
 
+
 }
 
 function mapDispatchToProps(dispatch){
   return {
+    saveAPost: (postId) => dispatch(fetchAPost(postId)),
     saveComments: (postId) => dispatch(fetchComments(postId)),
     addComment: (newComment) => dispatch(newComment(newComment)),
     editComment: (comment) => dispatch(changeComment(comment)),

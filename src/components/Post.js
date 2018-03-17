@@ -6,9 +6,8 @@ import AddIcon from 'react-icons/lib/fa/plus-circle'
 import DownVoteIcon from 'react-icons/lib/fa/hand-o-down'
 import UpVoteIcon from 'react-icons/lib/fa/hand-o-up'
 import CommentsIcon from 'react-icons/lib/fa/comment-o'
-import { deletePostFromStore, likePost, notLikePost } from './actions'
+import { deletePost, likePost, notLikePost } from '../actions'
 import PostFormContainer from './PostFormContainer.js'
-import './App.css'
 
 class Post extends Component{
 
@@ -23,7 +22,7 @@ class Post extends Component{
                 {this.props.posts.map((post) =>
                     <div key={post.id}> 
                             <div className="post-title">
-                                <Link to={{ pathname: `/post/postView`, state: {postDataView: post} }}>
+                                <Link to={{ pathname: `/post/post-view`, state: {postDataView: post} }}>
                                     {post.title}
                                 </Link>
                             </div>
@@ -70,7 +69,7 @@ function mapStateToProps (state){
 
 function mapDispatchToProps(dispatch){
   return {
-    deletePost: (postId) => dispatch(deletePostFromStore(postId)),
+    deletePost: (postId) => dispatch(deletePost(postId)),
     upVotePost: (post) => dispatch(likePost(post)),
     downVotePost: (post) => dispatch(notLikePost(post)),
   }

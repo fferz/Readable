@@ -1,4 +1,5 @@
 export const SAVEPOST_INSTORE = 'SAVEPOST_INSTORE'
+export const SAVE_A_POST = 'SAVE_A_POST'
 export const ADDPOST_TOSTORE = 'ADDPOST_TOSTORE'
 export const DELETEPOST_FROMSTORE = 'DELETEPOST_FROMSTORE'
 export const UPVOTE_POST = 'UPVOTE_POST'
@@ -26,6 +27,28 @@ export function savePostInStore( postList ) {
     return {
         type: SAVEPOST_INSTORE,
         postList,
+    }
+}
+
+/* ask for a single post */
+export function fetchAPost(postId){
+    return function(dispatch){
+        fetch(`/posts/${postId}`,
+            {
+                headers: { 'Authorization': 'fer' }
+            }
+        ).then(res => res.json())
+        .then(post =>  {dispatch(saveAPost(post))
+            }
+        )
+    }
+}
+
+export function saveAPost( post ) {
+    console.log('entro a la accion save a post',post )
+    return {
+        type: SAVE_A_POST,
+        post,
     }
 }
 
@@ -64,7 +87,7 @@ export function deletePost( postId ){
             headers: { 'Authorization': 'posts-deletePost' },
         }
         ).then(res => {res.json(), console.log('res', res)})     
-         .then(postId =>  {dispatch(deletePostFromStore( postId ))
+         .then(() =>  {dispatch(deletePostFromStore( postId ))
             }
         )
     }

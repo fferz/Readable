@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { addPostInStore } from './actions' 
+import { addPostInStore } from '../actions' 
 import { connect } from 'react-redux'
-import './App.css'
-
 
 class PostForm extends React.Component {
 

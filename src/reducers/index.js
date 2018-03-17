@@ -1,4 +1,4 @@
-import { SAVEPOST_INSTORE, ADDPOST_TOSTORE, DELETEPOST_FROMSTORE } from '../actions'
+import { SAVEPOST_INSTORE, SAVE_A_POST, ADDPOST_TOSTORE, DELETEPOST_FROMSTORE } from '../actions'
 import { UPVOTE_POST, DOWNVOTE_POST, EDIT_POST } from '../actions'
 import { SAVECOMMENTS_INSTORE, ADD_COMMENT, EDIT_COMMENT} from '../actions/CommentsAction'
 import { DELETE_COMMENT, UPVOTE_COMMENT, DOWNVOTE_COMMENT} from '../actions/CommentsAction'
@@ -9,16 +9,21 @@ const initialState = {
     posts: [],
     editPost: null,
     comments: [],
+    post: null,
 }
 
 function postReducer (state = initialState, action) {
     const { postList, newPost, postId, post, voteScore } = action
     switch (action.type) {
 
-        case SAVEPOST_INSTORE : //va en reducer posts
+        case SAVEPOST_INSTORE : 
         console.log('initial store', initialState)
         console.log('postList (reducer)', postList)
             return Object.assign({}, state, {posts: postList})
+
+        case SAVE_A_POST :
+        console.log('save a post (reducer)', post)
+            return Object.assign({}, state, {post: post})
 
         case ADDPOST_TOSTORE : 
         console.log('newPost (reducer)', newPost)
@@ -34,6 +39,7 @@ function postReducer (state = initialState, action) {
                 commens: state.comments.filter(c => c.parentId !== postId)
             }
 
+        /* i don't know how to do this :( */
         case UPVOTE_POST :
         console.log('upvote post (reducer)', post)
             return {
@@ -41,6 +47,7 @@ function postReducer (state = initialState, action) {
 
             }
 
+        /* i don't know how to do this :( */
         case DOWNVOTE_POST :
         console.log('downvote post (reducer)', post)
             return {
