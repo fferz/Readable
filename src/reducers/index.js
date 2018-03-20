@@ -39,20 +39,20 @@ function postReducer (state = initialState, action) {
                 commens: state.comments.filter(c => c.parentId !== postId)
             }
 
-        /* i don't know how to do this :( */
         case UPVOTE_POST :
         console.log('upvote post (reducer)', post)
+        let upVotes = post.voteScore + 1
+        post.voteScore = upVotes
             return {
-                ...state,
-
+                posts: state.posts
             }
 
-        /* i don't know how to do this :( */
         case DOWNVOTE_POST :
         console.log('downvote post (reducer)', post)
+        let downVotes = post.voteScore - 1
+        post.voteScore = downVotes
             return {
-                ...state,
-
+                posts: state.posts
             }
 
         case EDIT_POST :
@@ -68,7 +68,7 @@ function postReducer (state = initialState, action) {
 }
 
 function commentReducer (state = initialState, action) {
-    const { postId, comment, commentId, comments, newComment } = action
+    const { comment, commentId, comments, newComment, voteScore } = action
     switch (action.type) {
 
         case SAVECOMMENTS_INSTORE :
@@ -89,13 +89,17 @@ function commentReducer (state = initialState, action) {
                 comments: state.comments.filter(c => c.id !== commentId)
             }
         case UPVOTE_COMMENT :
+            let moreVotes = comment.voteScore + 1
+            comment.voteScore = moreVotes
             return {
-                ...state,
+                comments: state.comments
                 
             }
         case DOWNVOTE_COMMENT :
+            let lessVotes = comment.voteScore - 1
+            comment.voteScore = lessVotes
             return {
-                ...state,
+                comments: state.comments
                 
             }
         default :

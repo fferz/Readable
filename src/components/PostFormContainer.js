@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { initialize } from 'redux-form';
-import { newPostToStore, editPost } from '../actions' 
+import { initialize, reset } from 'redux-form';
+import { newPostToStore, changePost } from '../actions' 
 import PostForm from './PostForm';
 
 class PostFormContainer extends React.Component {
@@ -21,7 +21,6 @@ class PostFormContainer extends React.Component {
       this.props.addPostToStore(values)
     }
     
-    
   }
 
   newId = () => {
@@ -37,7 +36,6 @@ class PostFormContainer extends React.Component {
             onSubmit={this.handleSubmit.bind(this)}
             categories={this.props.categories}
             postData={this.props.postData}
-            //postData={this.props.location.state.postData ? this.props.location.state.postData : ''}
             />
       </div>
     );
@@ -56,7 +54,8 @@ function mapStateToProps (state){
 function mapDispatchToProps(dispatch){
   return {
     addPostToStore: (newPost) => dispatch(newPostToStore(newPost)),
-    editPost: (post) => dispatch(editPost(post)),
+    editPost: (post) => dispatch(changePost(post)),
+    clearForm: () => dispatch(reset('formId-postForm')),
   }
 }
 

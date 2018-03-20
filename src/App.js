@@ -10,6 +10,7 @@ import PostFormContainer from './components/PostFormContainer.js'
 import Post from './components/Post.js'
 import PostView from './components/PostView'
 import './App.css'
+import CommentFormContainer from './components/CommentFormContainer'
 
 class App extends Component {
   state = {
@@ -85,6 +86,7 @@ class App extends Component {
             )}/>
             
             <Route path="/create" render={() => (
+              console.log('App /create'),
                 <PostFormContainer
                   categories={this.state.categories}
                  />
@@ -108,8 +110,14 @@ class App extends Component {
             <Route path="/post/post-view" render={() => (
                 console.log('ROUTE post view',this.props.location.state),
                 <PostView 
-                  postDataView={this.props.location.state && this.props.location.state.postDataView}
+                  postDataView={this.props.location.state.postDataView}
                 />
+            )} />
+
+            
+            <Route path="/post/edit-comment" render={() => (
+                <CommentFormContainer
+                  commentDataView={this.props.location.state.commentData} />
             )} />
 
             <Route path="/most-voted" render={() => (

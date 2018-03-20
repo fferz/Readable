@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { addPostInStore } from '../actions' 
 import { connect } from 'react-redux'
 
 class PostForm extends React.Component {
@@ -91,12 +90,6 @@ class PostForm extends React.Component {
 
     )
   }}
-/*
-function mapDispatchToProps(dispatch){
-  return {
-    addNewPost: (newPost) => dispatch(addPostInStore(newPost)),
-  }
-}*/
 
 export default connect()(reduxForm({
     form: 'formId-postForm',
@@ -104,9 +97,3 @@ export default connect()(reduxForm({
     
 })(PostForm));
 
-
-/*export default reduxForm({
-    form: 'post-form-id',
-    fields: ['title', 'author', 'category', 'body'],
-    enableReinitialize : true,
-})(PostForm)*/

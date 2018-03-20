@@ -53,17 +53,17 @@ export function saveAPost( post ) {
 }
 
 /* new post */
-//this does not work, I don't know why :(, please help me!
+
 export function newPostToStore( newPost ){
     return function(dispatch){
-        fetch('http://localhost:3001/posts',{
+        fetch('/posts',{
             method: 'POST',
             body: JSON.stringify({newPost}),
             headers: { 'Authorization': 'posts-addNewPost' },
             'Content-Type': 'application/json'
         }
         ).then(res => {res.json(), console.log('res', res)})     
-         .then(newPost =>  {dispatch(addPostToStore( newPost ))
+         .then(() =>  {dispatch(addPostToStore( newPost ))
             }
         )
     }
@@ -111,7 +111,7 @@ export function likePost(post){
             headers: { 'Authorization': 'posts-downvotePost' },
         }
         ).then(res => res.json())     
-         .then(post =>  {dispatch(upVotePost( post ))
+         .then(() =>  {dispatch(upVotePost( post ))
             }
         )
     }
@@ -135,7 +135,7 @@ export function notLikePost(post){
             headers: { 'Authorization': 'posts-upvotePost' },
         }
         ).then(res => res.json())     
-         .then(post =>  {dispatch(downVotePost( post ))
+         .then(() =>  {dispatch(downVotePost( post ))
             }
         )
     }
@@ -152,7 +152,6 @@ export function downVotePost(post){
 
 /* edit post */
 
-/*
 export function changePost(post){
     return function(dispatch){
         fetch(`/posts/${post.id}`,{
@@ -161,11 +160,11 @@ export function changePost(post){
             headers: { 'Authorization': 'posts-changePost' },
         }
         ).then(res => res.json())     
-         .then(posts =>  {dispatch(editPost( post ))
+         .then(() =>  {dispatch(editPost( post ))
             }
         )
     }
-}*/
+}
 
 export function editPost(post){
     console.log('accion edit post', post)

@@ -39,13 +39,13 @@ export function newComment( newComment){
             'Content-Type': 'application/json'
         }
         ).then(res => {res.json(), console.log('res', res)})     
-         .then(newComment =>  {dispatch(addComment(  newComment ))
+         .then(() =>  {dispatch(addComment(  newComment ))
             }
         )
     }
 }
 
-export function addComment( postId, newComment ){
+export function addComment( newComment ){
     console.log('accion addComments', newComment)
     return {
         type: ADD_COMMENT,
@@ -60,11 +60,10 @@ export function changeComment(comment){
         fetch(`/comments/${comment.id}`,{
             method: 'PUT',
             body: JSON.stringify({comment}),
-            headers: { 'Authorization': 'editComment' },
-            'Content-Type': 'application/json'
+            headers: { 'Authorization': 'editComment' }
         }
         ).then(res => {res.json(), console.log('res', res)})     
-         .then(comment =>  {dispatch(editComment( comment ))
+         .then(() =>  {dispatch(editComment( comment ))
             }
         )
     }
@@ -111,17 +110,17 @@ export function likeComment(comment){
             headers: { 'Authorization': 'upvoteComment' },
         }
         ).then(res => res.json())     
-         .then(comment =>  {dispatch(upVoteComment( comment ))
+         .then(() =>  {dispatch(upVoteComment( comment ))
             }
         )
     }
 }
 
-export function upVoteComment({ votes, commentId }) {
+export function upVoteComment( comment ) {
     return {
         type: UPVOTE_COMMENT, //what event took place
-        votes,
-        commentId,
+        comment,
+        voteScore: comment.voteScore,
     }
 }
 
@@ -135,17 +134,17 @@ export function notLikeComment(comment){
             headers: { 'Authorization': 'upvoteComment' },
         }
         ).then(res => res.json())     
-         .then(comment =>  {dispatch(downVoteComment( comment ))
+         .then(() =>  {dispatch(downVoteComment( comment ))
             }
         )
     }
 }
 
-export function downVoteComment({ votes, commentId }) {
+export function downVoteComment(comment ) {
     return {
         type: DOWNVOTE_COMMENT,
-        votes,
-        commentId,
+        comment,
+        voteScore: comment.voteScore,
     }
 }
 
