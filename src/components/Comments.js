@@ -25,18 +25,14 @@ class Comments extends React.Component {
         console.log('comments', this.props)
 
         let showCreateComment = null
-        if (this.state.newCommentFlag === false) {
-            
+        if (this.state.newCommentFlag === false) {      
             showCreateComment = <button className="comment-button" onClick={this.showNewCommentForm}>
                                     new comment
-                                </button>  
-                                             
-                                
-            
+                                </button>                     
         } else {
             this.showNewCommentButton
             showCreateComment = <CommentFormContainer
-                                    commentDataView={this.props.commentsList} />
+                                    commentDataView={this.props.commentsList}/>
         }
 
         return(
@@ -97,10 +93,7 @@ class Comments extends React.Component {
 }
 
 function mapStateToProps (state){
-  
   return state
-
-
 }
 
 function mapDispatchToProps(dispatch){
@@ -108,7 +101,6 @@ function mapDispatchToProps(dispatch){
     deleteComment: (commentId) => dispatch(eraseComment(commentId)),
     upVoteComment: (comment) => dispatch(likeComment(comment)),
     downVoteComment: (comment) => dispatch(notLikeComment(comment)),
-    
   }
 }
 

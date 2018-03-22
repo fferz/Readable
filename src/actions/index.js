@@ -7,13 +7,13 @@ export const DOWNVOTE_POST = 'DOWNVOTE_POST'
 export const EDIT_POST = 'EDIT_POST'
 export const DELETEALLCOMMENTS = 'DELETEALLCOMMENTS'
 
-/* save posts in store */
+/* save posts in store OK*/
 
 export function fetchPosts(){
     return function(dispatch){
-        fetch('/posts',
+        fetch('http://localhost:3001/posts',
             {
-                headers: { 'Authorization': 'fer' }
+                headers: { 'Authorization': 'readable-app' }
             }
         ).then(res => res.json())
         .then(posts =>  {dispatch(savePostInStore(posts))
@@ -30,12 +30,12 @@ export function savePostInStore( postList ) {
     }
 }
 
-/* ask for a single post */
+/* ask for a single post OK*/
 export function fetchAPost(postId){
     return function(dispatch){
         fetch(`/posts/${postId}`,
             {
-                headers: { 'Authorization': 'fer' }
+                headers: { 'Authorization': 'readable-app' }
             }
         ).then(res => res.json())
         .then(post =>  {dispatch(saveAPost(post))
@@ -52,42 +52,41 @@ export function saveAPost( post ) {
     }
 }
 
-/* new post */
+/* new post OK*/
 
 export function newPostToStore( newPost ){
     return function(dispatch){
-        fetch('/posts',{
+        fetch('http://localhost:3001/posts',{
             method: 'POST',
-            body: JSON.stringify({newPost}),
-            headers: { 'Authorization': 'posts-addNewPost' },
-            'Content-Type': 'application/json'
+            body: JSON.stringify(newPost),
+            headers: { 'Authorization': 'readable-app',
+                       'Content-Type': 'application/json',
+                       'Accept': 'application/json' },
         }
-        ).then(res => {res.json(), console.log('res', res)})     
-         .then(() =>  {dispatch(addPostToStore( newPost ))
-            }
-        )
+        ).then(res => res.json())
+         .then((data) =>  {dispatch(addPostToStore(data))})
+         .catch((e) => e.message)
     }
 }
 
-export function addPostToStore( newPost ){
-    console.log('accion new post to store', newPost)
+export function addPostToStore( data ){
+    console.log('accion new post to store', data)
     return {
         type: ADDPOST_TOSTORE,
-        newPost,
+        newPost:  data,
     }
 }
 
-/* delete post */
+/* delete post OK*/
 
 export function deletePost( postId ){
     return function(dispatch){
-        fetch(`/posts/${postId}`,{
+        fetch(`http://localhost:3001/posts/${postId}`,{
             method: 'DELETE',
-            body: {option: 'downVote'},
-            headers: { 'Authorization': 'posts-deletePost' },
+            headers: { 'Authorization': 'readable-app' },
         }
         ).then(res => {res.json(), console.log('res', res)})     
-         .then(() =>  {dispatch(deletePostFromStore( postId ))
+         .then((data) =>  {dispatch(deletePostFromStore( postId ))
             }
         )
     }
@@ -104,14 +103,17 @@ export function deletePostFromStore( postId ){
 /* upvote post */
 
 export function likePost(post){
+    let upVote = {}
+    upVote.option = 'upVote'
     return function(dispatch){
         fetch(`/posts/${post.id}`,{
             method: 'POST',
-            body: {option: 'upVote'},
-            headers: { 'Authorization': 'posts-downvotePost' },
+            body: JSON.stringify(upVote),
+            headers: { 'Authorization': 'readable-app',
+                       'Content-Type': 'application/json'},
         }
         ).then(res => res.json())     
-         .then(() =>  {dispatch(upVotePost( post ))
+         .then((data) =>  {dispatch(upVotePost( data ))
             }
         )
     }
@@ -122,55 +124,61 @@ export function upVotePost(post){
     return {
         type: UPVOTE_POST,
         post,
-        voteScore: post.voteScore,
     }
 }
 
-/* downvote vost */
+/* downvote post */
 
 export function notLikePost(post){
+    let downVote = {}
+    downVote.option = 'downVote'
     return function(dispatch){
         fetch(`/posts/${post.id}`,{
-            method: 'POST',
-            headers: { 'Authorization': 'posts-upvotePost' },
-        }
-        ).then(res => res.json())     
-         .then(() =>  {dispatch(downVotePost( post ))
+                method: 'POST',
+                body: JSON.stringify(downVote),
+                headers: { 'Authorization': 'readable-app',
+                    'Content-Type': 'application/json'},
             }
-        )
+        ).then(res => res.json())
+            .then((data) =>  {dispatch(downVotePost( data ))
+                }
+            )
     }
 }
 
-export function downVotePost(post){
-    console.log('accion downvote post', post)
+export function downVotePost(data){
+    console.log('accion downvote post', data)
     return {
         type: DOWNVOTE_POST,
-        post,
-        voteScore: post.voteScore,
+        post: data,
     }
 }
 
-/* edit post */
+/* edit post OK */
 
 export function changePost(post){
+    let editedPost = {}
+    editedPost.title = post.title
+    editedPost.body = post.body
     return function(dispatch){
-        fetch(`/posts/${post.id}`,{
+        fetch(`http://localhost:3001/posts/${post.id}`,{
             method: 'PUT',
-            body: JSON.stringify({post}),
-            headers: { 'Authorization': 'posts-changePost' },
+            body: JSON.stringify(editedPost),
+            headers: {  'Authorization': 'readable-app',
+                       'Content-Type': 'application/json'},
         }
         ).then(res => res.json())     
-         .then(() =>  {dispatch(editPost( post ))
+         .then((data) =>  {dispatch(editPost( data ))
             }
         )
     }
 }
 
-export function editPost(post){
-    console.log('accion edit post', post)
+export function editPost(data){
+    console.log('accion edit post', data)
     return {
         type: EDIT_POST,
-        post,
+        post: data,
     }
 }
 

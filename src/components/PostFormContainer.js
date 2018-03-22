@@ -8,18 +8,24 @@ class PostFormContainer extends React.Component {
 
   handleSubmit = values => {
     if (values.id !== undefined) {
-      values.timestamp = Date.now()
-      console.log('voy a editPost', values)
-      this.props.editPost(values)
+      let editValues = {}
+      editValues.id = values.id
+      editValues.title = values.title
+      editValues.body = values.body
+      console.log('voy a editPost', editValues)
+      this.props.editPost(editValues)
+ 
     } else {
       values.id = this.newId().toString()
       values.timestamp = Date.now()
-      values.commentCount = 0
-      values.deleted = false
-      values.voteScore = 0
+      //values.commentCount = 0
+      //values.deleted = false
+      //values.voteScore = 0
       console.log('voy a create new post', values)
       this.props.addPostToStore(values)
+      this.props.clearForm()
     }
+    
     
   }
 

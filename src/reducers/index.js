@@ -13,7 +13,7 @@ const initialState = {
 }
 
 function postReducer (state = initialState, action) {
-    const { postList, newPost, postId, post, voteScore } = action
+    const { postList, newPost, postId, post} = action
     switch (action.type) {
 
         case SAVEPOST_INSTORE : 
@@ -35,24 +35,21 @@ function postReducer (state = initialState, action) {
         case DELETEPOST_FROMSTORE :
         console.log('delete post (reducer)', postId)
             return {
-                posts: state.posts.filter(post => postId !== post.id),
-                commens: state.comments.filter(c => c.parentId !== postId)
+                posts: state.posts.filter(post => postId !== post.id)
             }
 
         case UPVOTE_POST :
         console.log('upvote post (reducer)', post)
-        let upVotes = post.voteScore + 1
-        post.voteScore = upVotes
+        let arrayP = state.posts.map((item) => { if (item.id === post.id) {return post} else {return item}})
             return {
-                posts: state.posts
+                posts : arrayP
             }
 
         case DOWNVOTE_POST :
         console.log('downvote post (reducer)', post)
-        let downVotes = post.voteScore - 1
-        post.voteScore = downVotes
+        let array = state.posts.map((item) => { if (item.id === post.id) {return post} else {return item}})
             return {
-                posts: state.posts
+                posts : array
             }
 
         case EDIT_POST :
