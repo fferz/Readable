@@ -3,43 +3,18 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import DownVoteIcon from 'react-icons/lib/fa/hand-o-down'
 import UpVoteIcon from 'react-icons/lib/fa/hand-o-up'
-import CommentsIcon from 'react-icons/lib/fa/comment-o'
-import CommentFormContainer from './CommentFormContainer'
-import { fetchComments, newComment, changeComment, eraseComment, likeComment, notLikeComment } from '../actions/CommentsAction'
+import {  eraseComment, likeComment, notLikeComment } from '../actions/CommentsAction'
 
 class Comments extends React.Component {
 
-    state = {
-        newCommentFlag : false,
-    }
-
-    showNewCommentForm = () => {
-        this.setState({newCommentFlag : true})
-    }
-
-    showNewCommentButton = () => {
-        this.setState({newCommentFlag : false})
-    }
-
     render(){
         console.log('comments', this.props)
-
-        let showCreateComment = null
-        if (this.state.newCommentFlag === false) {      
-            showCreateComment = <button className="comment-button" onClick={this.showNewCommentForm}>
-                                    new comment
-                                </button>                     
-        } else {
-            this.showNewCommentButton
-            showCreateComment = <CommentFormContainer
-                                    commentDataView={this.props.commentsList}/>
-        }
 
         return(
             <div className="post-view-comments">
                     <h3>Comentarios:</h3>
 
-                    {this.props.commentsList.map((comment) => 
+                    {this.props.commentReducer.comments.map((comment) =>
                         <div key={comment.id} className="comment-content">
 
                             <div className="comment-body">
@@ -84,9 +59,7 @@ class Comments extends React.Component {
                         </div>
                     )}
                     
-                    <div>
-                        {showCreateComment}
-                    </div>
+
                 </div>
         )
     }

@@ -73,3 +73,5 @@ export default connect()(reduxForm({
     fields: ['body', 'author', 'deleted', 'id', 'parentDeleted', 'parentId', 'timestamp', 'voteScore'],
     
 })(CommentForm));
+
+

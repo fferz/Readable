@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { initialize, reset } from 'redux-form';
-import { newPostToStore, changePost } from '../actions' 
+import { newPostToStore, changePost, fetchAPost } from '../actions'
 import PostForm from './PostForm';
 
 class PostFormContainer extends React.Component {
@@ -14,35 +14,29 @@ class PostFormContainer extends React.Component {
       editValues.body = values.body
       console.log('voy a editPost', editValues)
       this.props.editPost(editValues)
- 
+
     } else {
       values.id = this.newId().toString()
       values.timestamp = Date.now()
-      //values.commentCount = 0
-      //values.deleted = false
-      //values.voteScore = 0
       console.log('voy a create new post', values)
       this.props.addPostToStore(values)
       this.props.clearForm()
     }
-    
-    
+
   }
 
   newId = () => {
     return Math.trunc(Math.random()*10000)
   }
 
-
   render() {
       console.log('entra al postForm COntainer - props', this.props)
+
     return (
       <div id="app">
-        <PostForm 
+        <PostForm
             onSubmit={this.handleSubmit.bind(this)}
-            categories={this.props.categories}
-            postData={this.props.postData}
-            />
+            postData={this.props.postData}/>
       </div>
     );
   }
@@ -50,9 +44,7 @@ class PostFormContainer extends React.Component {
 }
 
 function mapStateToProps (state){
-  
-  console.log('state - postFormContainer', state)
-  //let array = Object.values(postReducer)
+
   return state
 
 }
@@ -62,6 +54,7 @@ function mapDispatchToProps(dispatch){
     addPostToStore: (newPost) => dispatch(newPostToStore(newPost)),
     editPost: (post) => dispatch(changePost(post)),
     clearForm: () => dispatch(reset('formId-postForm')),
+    getThisPost: (postId) => dispatch(fetchAPost(postId)),
   }
 }
 

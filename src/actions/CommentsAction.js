@@ -5,17 +5,18 @@ export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const UPVOTE_COMMENT = 'UPVOTE_COMMENT'
 export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT'
 
+
 /*save all the comments in store */
 
 export function fetchComments(postId){
     return function(dispatch){
-        fetch(`/posts/${postId}/comments`,
+        fetch(`http://localhost:3001/posts/${postId}/comments`,
         {
-            headers: { 'Authorization': 'post-comments' }
+            headers: { 'Authorization': 'readable-app' }
         }
         )
         .then(res => res.json())
-        .then(comments => {dispatch(saveCommentsInStore( comments)), console.log('comments', comments, postId)}
+        .then(comments => {dispatch(saveCommentsInStore( comments))}
         )
     }
 }
@@ -32,48 +33,54 @@ export function saveCommentsInStore( comments ) {
 
 export function newComment( newComment){
     return function(dispatch){
-        fetch('/comments',{
+        fetch('http://localhost:3001/comments',{
             method: 'POST',
-            body: JSON.stringify({newComment}),
-            headers: { 'Authorization': 'addNewComment' },
-            'Content-Type': 'application/json'
+            body: JSON.stringify(newComment),
+            headers: { 'Authorization': 'readable-app',
+                       'Content-Type': 'application/json',
+                       'Accept': 'application/json' },
         }
-        ).then(res => {res.json(), console.log('res', res)})     
-         .then(() =>  {dispatch(addComment(  newComment ))
-            }
-        )
+        ).then(res => res.json())     
+         .then((data) => { dispatch(addComment( data ))})
     }
 }
 
-export function addComment( newComment ){
-    console.log('accion addComments', newComment)
+export function addComment( data ){
+    console.log('accion addComments', data)
     return {
         type: ADD_COMMENT,
-        newComment,
+        newComment: data,
+        postId: data.parentId,
     }
 }
+
+
 
 /* edit a comment */
 
 export function changeComment(comment){
+    let editedComment = {}
+    editedComment.timestamp = comment.timestamp
+    editedComment.body = comment.body
     return function(dispatch){
-        fetch(`/comments/${comment.id}`,{
+        fetch(`http://localhost:3001/comments/${comment.id}`,{
             method: 'PUT',
-            body: JSON.stringify({comment}),
-            headers: { 'Authorization': 'editComment' }
+            body: JSON.stringify(editedComment),
+            headers: {'Authorization': 'readable-app',
+                       'Content-Type': 'application/json'},
         }
-        ).then(res => {res.json(), console.log('res', res)})     
-         .then(() =>  {dispatch(editComment( comment ))
+        ).then(res => res.json())     
+         .then((data) =>  {dispatch(editComment( data ))
             }
         )
     }
 }
 
-export function editComment(comment){
-    console.log('accion editComment', comment)
+export function editComment(data){
+    console.log('accion editComment', data)
     return {
         type: EDIT_COMMENT,
-        comment,
+        comment: data,
     }
 }
 
@@ -81,12 +88,12 @@ export function editComment(comment){
 
 export function eraseComment( commentId ){
     return function(dispatch){
-        fetch(`/comments/${commentId}`,{
+        fetch(`http://localhost:3001/comments/${commentId}`,{
             method: 'DELETE',
-            headers: { 'Authorization': 'delete-comment' },
+            headers: { 'Authorization': 'readable-app' },
         }
-        ).then(res => {res.json(), console.log('res', res)})     
-         .then(comment =>  {dispatch(deleteComment( commentId ))
+        ).then(res => res.json())     
+         .then(data =>  {dispatch(deleteComment( commentId ))
             }
         )
     }
@@ -103,48 +110,52 @@ export function deleteComment( commentId ){
 /* upvote a comment */
 
 export function likeComment(comment){
+    let upVote = {}
+    upVote.option = 'upVote'
     return function(dispatch){
         fetch(`/comments/${comment.id}`,{
             method: 'POST',
-            body: {option: 'upVote'},
-            headers: { 'Authorization': 'upvoteComment' },
+            body: JSON.stringify(upVote),
+            headers: { 'Authorization': 'readable-app',
+                       'Content-Type': 'application/json'},
         }
         ).then(res => res.json())     
-         .then(() =>  {dispatch(upVoteComment( comment ))
+         .then((data) =>  {dispatch(upVoteComment( data ))
             }
         )
     }
 }
 
-export function upVoteComment( comment ) {
+export function upVoteComment( data ) {
     return {
-        type: UPVOTE_COMMENT, //what event took place
-        comment,
-        voteScore: comment.voteScore,
+        type: UPVOTE_COMMENT, 
+        comment: data
     }
 }
 
 /* downvote a comment */
 
 export function notLikeComment(comment){
+    let downVote = {}
+    downVote.option = 'downVote'
     return function(dispatch){
         fetch(`/comments/${comment.id}`,{
             method: 'POST',
-            body: {option: 'downVote'},
-            headers: { 'Authorization': 'upvoteComment' },
+            body: JSON.stringify(downVote),
+            headers: { 'Authorization': 'readable-app',
+                    'Content-Type': 'application/json'},
         }
         ).then(res => res.json())     
-         .then(() =>  {dispatch(downVoteComment( comment ))
+         .then((data) =>  {dispatch(downVoteComment( data ))
             }
         )
     }
 }
 
-export function downVoteComment(comment ) {
+export function downVoteComment(data ) {
     return {
         type: DOWNVOTE_COMMENT,
-        comment,
-        voteScore: comment.voteScore,
+        comment: data,
     }
 }
 

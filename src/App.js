@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Route} from 'react-router-dom'
+import { Route, Switch} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { initialize } from 'redux-form';
 import { upvoteComment, downvoteComment, fetchPosts } from './actions' 
 import AddPostIcon from 'react-icons/lib/fa/plus-circle'
 import GoHomeIcon from 'react-icons/lib/fa/home'
@@ -11,48 +10,30 @@ import Post from './components/Post.js'
 import PostView from './components/PostView'
 import './App.css'
 import CommentFormContainer from './components/CommentFormContainer'
+import {fetchCategories} from "./actions/CategoriesAction";
 
 class App extends Component {
   state = {
     categories : [],
-    postOpened: null,
   }
 
-  componentDidMount(){
-    
-    this.props.savePosts();
-    console.log('ejecuta el componentDidMount bola este')
+  componentDidMount() {
 
-    fetch('/categories',
-      {
-        headers: { 'Authorization': 'fercategories' }
-      }
-    )
-      .then(res => res.json())
-      .then(categories => {this.setState({ categories: categories.categories })}
-      )
-  }
-
-  newId = () => {
-    return Math.trunc(Math.random()*10000)
-  }
-
-  orderFunction = (a,b) => {
-    return a - b
+      this.props.savePosts();
+      this.props.saveCategories();
   }
 
   render() {
     console.log('Props (render App)', this.props)
     console.log('State (render App)', this.state)
-    
-    //let totalPost = this.props.postReducer.posts.concat(this.props.postReducer.newPosts)
+
 
     var i =1
     return (
       <div className="app-container">
         
         <div className="sidenav">
-            {this.state.categories.map( category =>
+            {this.props.categoryReducer.categories.map( category =>
                 <div key={i}> 
                     <Link
                       to={`/category/${category.name}`}
@@ -75,79 +56,82 @@ class App extends Component {
         </div>
 
           <div className="content">
+
+            <Switch>
             
-            <Route exact path="/" render={() => (
-              <div>
-                <h1>Posts</h1>
-                <Post 
-                  posts={this.props.postReducer.posts} />
-                
-              </div>
-            )}/>
-            
-            <Route path="/create" render={() => (
-              console.log('App /create'),
-                <PostFormContainer
-                  categories={this.state.categories}
-                 />
-            )}/>
+                <Route exact path="/" render={() => (
+                  <div>
+                    <h1>Posts</h1>
+                    <Post />
+                  </div>
+                )}/>
 
-            {/* Route Params */}
-            <Route path="/category/:categoryName" render={({ match }) => (
-              <div> 
-                <h1>{match.params.categoryName}</h1>
-                <Post posts={this.props.postReducer.posts.filter((post) => post.category === match.params.categoryName )} />
-              </div>  
-            )} />
+                <Route  path="/create" render={() => (
+                  console.log('App /create'),
+                    <PostFormContainer/>
+                )}/>
 
-            <Route path="/edit" render={() => (
-                <PostFormContainer
-                  categories={this.state.categories}
-                  postData={this.props.location.state && this.props.location.state.postData}
-                 />
-            )}/>
+                {/* Route Params */}
+                <Route path="/category/:categoryName" render={({ match }) => (
+                  <div>
+                    <h1>{match.params.categoryName}</h1>
+                    <Post posts={this.props.postReducer.posts.filter((post) => post.category === match.params.categoryName )} />
+                  </div>
+                )} />
 
-            <Route path="/post/post-view" render={() => (
-                console.log('ROUTE post view',this.props.location.state),
-                <PostView 
-                  postDataView={this.props.location.state.postDataView}
-                />
-            )} />
+                <Route path="/edit" render={() => (
+                    <PostFormContainer
+                      postData={this.props.location.state && this.props.location.state.postData}
+                     />
+                )}/>
 
-            
-            <Route path="/post/edit-comment" render={() => (
-                <CommentFormContainer
-                  commentDataView={this.props.location.state.commentData} />
-            )} />
+                <Route path="/post/:postId" render={({match}) => (
+                    console.log('ROUTE post view', this.props.location.state),
+                    <PostView
+                        postDataView={this.props.location.state.postDataView}
+                    />
+                )} />
 
-            <Route path="/most-voted" render={() => (
-              <div>
-                <h1>the most voted posts</h1>
-                
-                <Post
-                  posts={[].concat(this.props.postReducer.posts).sort(
-                    function(a,b){
-                      if (a.voteScore < b.voteScore){ return 1};
-                      if (a.voteScore > b.voteScore){ return -1};
-                      return 0;
-                    }
-                  )} />
-              </div>
-            )} />
 
-            <Route path="/most-recent" render={() => (
-              <div>
-                <h1>the most recent posts</h1>
-                <Post
-                  posts={[].concat(this.props.postReducer.posts).sort(
-                    function(a,b){
-                      if (a.timestamp < b.timestamp){ return 1};
-                      if (a.timestamp > b.timestamp){ return -1};
-                      return 0;
-                    }
-                  )} />
-              </div>
-            )} />
+                <Route path="/post/edit-comment" render={() => (
+                    <CommentFormContainer
+                      commentData={this.props.location.state.commentData} />
+                )} />
+
+                <Route path="/most-voted" render={() => (
+                  <div>
+                    <h1>the most voted posts</h1>
+
+                    <Post
+                      posts={[].concat(this.props.postReducer.posts).sort(
+                        function(a,b){
+                          if (a.voteScore < b.voteScore){ return 1};
+                          if (a.voteScore > b.voteScore){ return -1};
+                          return 0;
+                        }
+                      )} />
+                  </div>
+                )} />
+
+                <Route  path="/most-recent" render={() => (
+                  <div>
+                    <h1>the most recent posts</h1>
+                    <Post
+                      posts={[].concat(this.props.postReducer.posts).sort(
+                        function(a,b){
+                          if (a.timestamp < b.timestamp){ return 1};
+                          if (a.timestamp > b.timestamp){ return -1};
+                          return 0;
+                        }
+                      )} />
+                  </div>
+                )} />
+
+                <Route render={() => (
+                    <div><h1>Nothing here.</h1></div>
+                )} />
+
+            </Switch>
 
             <div className="new-post">
               <Link
@@ -180,6 +164,7 @@ function mapStateToProps (state){
 function mapDispatchToProps(dispatch){
   return {
     savePosts: () => dispatch(fetchPosts()),
+    saveCategories: () => dispatch(fetchCategories()),
   }
 }
 

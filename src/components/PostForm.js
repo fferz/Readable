@@ -11,7 +11,7 @@ class PostForm extends React.Component {
                 author: this.props.postData.author,
                 category: this.props.postData.category,
                 body: this.props.postData.body,
-                commentCount:this.props.postData.commentCount,
+                commentCount: this.props.postData.commentCount,
                 deleted: false,
                 id: this.props.postData.id,
                 voteScore: this.props.postData.voteScore,
@@ -62,7 +62,7 @@ class PostForm extends React.Component {
                     <div>
                         <Field name="category" component="select">
                             <option />
-                            {this.props.categories.map((cat)=>
+                            {this.props.categoryReducer.categories.map((cat)=>
                                 <option value={cat.name} key={cat.name}>{cat.name}</option>)}
                         </Field>
                     </div>
@@ -91,9 +91,26 @@ class PostForm extends React.Component {
     )
   }}
 
-export default connect()(reduxForm({
+function mapStateToProps (state){
+
+    return state
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+    }
+}
+
+PostForm = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(PostForm)
+
+PostForm = reduxForm({
     form: 'formId-postForm',
     fields: ['title', 'author', 'category', 'body', 'commentedCount', 'deleted', 'id', 'voteScore'],
-    
-})(PostForm));
+})(PostForm)
+
+export default PostForm
+
 

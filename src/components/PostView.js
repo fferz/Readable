@@ -7,6 +7,7 @@ import UpVoteIcon from 'react-icons/lib/fa/hand-o-up'
 import CommentsIcon from 'react-icons/lib/fa/comment-o'
 import { deletePost, likePost, notLikePost, fetchAPost } from '../actions'
 import { fetchComments } from '../actions/CommentsAction'
+import CommentFormContainer from './CommentFormContainer'
 import Comments from './Comments'
 
 class PostView extends Component{
@@ -14,6 +15,7 @@ class PostView extends Component{
     state = {
         comments : [],
         post: null,
+        newCommentFlag : false,
     }
 
     componentDidMount(){
@@ -24,11 +26,29 @@ class PostView extends Component{
         
     }
 
+    showNewCommentForm = () => {
+        this.setState({newCommentFlag : true})
+    }
+
+    showNewCommentButton = () => {
+        this.setState({newCommentFlag : false})
+    }
+
     render(){
         console.log('props (PostView)', this.props.postDataView)
         console.log('state (PostView)', this.props.state)
         console.log('props.state', this.props)
         console.log('EL POST', this.props.postReducer.post)
+
+        let showCreateComment = null
+        if (this.state.newCommentFlag === false) {
+            showCreateComment = <button className="comment-button" onClick={this.showNewCommentForm}>
+                new comment
+            </button>
+        } else {
+            this.showNewCommentButton
+            showCreateComment = <CommentFormContainer />
+        }
 
         const post  = this.props.postDataView ? this.props.postDataView : this.props.postReducer.post
         
@@ -69,7 +89,7 @@ class PostView extends Component{
                     </div>
                     <div className="post-element">
                         <Link to={{ pathname: '/edit', state: {postData: post} }}>
-                            <button>edit</button>
+                            <button >edit</button>
                         </Link>
                     </div>
                     <div className="post-element">
@@ -78,8 +98,11 @@ class PostView extends Component{
                     </div>
                 </div>
 
-                <Comments
-                    commentsList={this.props.commentReducer.comments} />
+                <Comments />
+
+                <div>
+                    {showCreateComment}
+                </div>
                 
             </div>
 

@@ -6,6 +6,7 @@ export const UPVOTE_POST = 'UPVOTE_POST'
 export const DOWNVOTE_POST = 'DOWNVOTE_POST'
 export const EDIT_POST = 'EDIT_POST'
 export const DELETEALLCOMMENTS = 'DELETEALLCOMMENTS'
+export const UPCOMMENT_COUNT = 'UPCOMMENT_COUNT'
 
 /* save posts in store OK*/
 
@@ -182,7 +183,13 @@ export function editPost(data){
     }
 }
 
-
+/* commentCount +1*/
+export function upCommentCount( data ){
+    return {
+        type: UPCOMMENT_COUNT,
+        postId: data.parentId,
+    }
+}
 
 
 

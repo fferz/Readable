@@ -1,15 +1,27 @@
 import { SAVEPOST_INSTORE, SAVE_A_POST, ADDPOST_TOSTORE, DELETEPOST_FROMSTORE } from '../actions'
-import { UPVOTE_POST, DOWNVOTE_POST, EDIT_POST } from '../actions'
+import { UPVOTE_POST, DOWNVOTE_POST, EDIT_POST, UPCOMMENT_COUNT } from '../actions'
 import { SAVECOMMENTS_INSTORE, ADD_COMMENT, EDIT_COMMENT} from '../actions/CommentsAction'
-import { DELETE_COMMENT, UPVOTE_COMMENT, DOWNVOTE_COMMENT} from '../actions/CommentsAction'
+import { DELETE_COMMENT, UPVOTE_COMMENT, DOWNVOTE_COMMENT } from '../actions/CommentsAction'
+import { SAVE_CATEGORIES } from '../actions/CategoriesAction'
 import { reducer as formReducer } from 'redux-form'
 import { combineReducers } from 'redux'
 
 const initialState = {
+    categories: [],
     posts: [],
-    editPost: null,
-    comments: [],
     post: null,
+    comments: [],
+}
+
+function categoryReducer (state = initialState, action) {
+    const { categories } = action
+    switch (action.type) {
+
+        case SAVE_CATEGORIES :
+            return Object.assign({}, state, {categories: categories})
+        default :
+            return state
+    }
 }
 
 function postReducer (state = initialState, action) {
@@ -59,13 +71,24 @@ function postReducer (state = initialState, action) {
                 posts: newState.concat(post)
             }
 
+        case ADD_COMMENT :
+            let arrayA = state.posts.map((item) => { if (item.id === postId) {return item.commentCount = item.commentCount + 1 } else {return item}})
+            return {
+                posts: arrayA,
+            }
+
+        case DELETE_COMMENT :
+            let arrayD = state.posts.map((item) => { if (item.id === postId) {return item.commentCount = item.commentCount - 1 } else {return item}})
+            return {
+                posts: arrayD,
+            }
         default :
             return state
     }
 }
 
 function commentReducer (state = initialState, action) {
-    const { comment, commentId, comments, newComment, voteScore } = action
+    const { comment, commentId, comments, newComment, postId } = action
     switch (action.type) {
 
         case SAVECOMMENTS_INSTORE :
@@ -74,7 +97,7 @@ function commentReducer (state = initialState, action) {
         case ADD_COMMENT :
             return {
                 ...state,
-                comments: state.comments.concat(newComment)
+                comments: state.comments.concat(newComment),
             }
         case EDIT_COMMENT :
             let newState = state.comments.filter(c => c.id !== c.id)
@@ -83,21 +106,20 @@ function commentReducer (state = initialState, action) {
             }
         case DELETE_COMMENT :
             return {
-                comments: state.comments.filter(c => c.id !== commentId)
+                ...state,
+                comments: state.comments.filter(c => c.id !== commentId),
             }
         case UPVOTE_COMMENT :
-            let moreVotes = comment.voteScore + 1
-            comment.voteScore = moreVotes
+            let commentsArray = state.comments.map((item) => { if (item.id === comment.id) {return comment} else {return item}})
             return {
-                comments: state.comments
+                comments: commentsArray
                 
             }
         case DOWNVOTE_COMMENT :
-            let lessVotes = comment.voteScore - 1
-            comment.voteScore = lessVotes
+            let commentsArray2 = state.comments.map((item) => { if (item.id === comment.id) {return comment} else {return item}})
             return {
-                comments: state.comments
-                
+                comments: commentsArray2
+
             }
         default :
             return state
@@ -124,6 +146,7 @@ function commentReducer (state = initialState, action) {
   */
 
 export default combineReducers({
+    categoryReducer,
     commentReducer,
     postReducer,
     form: formReducer,
