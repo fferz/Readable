@@ -89,7 +89,7 @@ class PostForm extends React.Component {
         </div>
 
     )
-  }}
+    }}
 
 function mapStateToProps (state){
 

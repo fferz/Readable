@@ -12,69 +12,69 @@ class Comments extends React.Component {
 
         return(
             <div className="post-view-comments">
-                    <h3>Comentarios:</h3>
+                <h3>Comentarios:</h3>
 
-                    {this.props.commentReducer.comments.map((comment) =>
-                        <div key={comment.id} className="comment-content">
+                {this.props.commentReducer.comments.map((comment) =>
+                    <div key={comment.id} className="comment-content">
 
-                            <div className="comment-body">
-                                {comment.body}
-                            </div>
-                            <div className="comment-author">
-                                <span className="comment-author-author">author: </span>
-                                {comment.author}
-                            </div>
-
-                            <div className="post-container">
-                                <div className="post-element">
-                                    <button className="comment-button"
-                                        onClick={()=>this.props.upVoteComment(comment)}>
-                                        <UpVoteIcon size={20} />
-                                    </button>
-                                </div>
-                                <div className="post-element">
-                                    {comment.voteScore}
-                                </div>
-                                <div className="post-element">
-                                    <button className="comment-button"
-                                        onClick={()=>this.props.downVoteComment(comment)}>
-                                        <DownVoteIcon size={20} />
-                                    </button>
-                                </div>
-                                <div className="post-element">
-                                    <Link to={{ pathname: '/post/edit-comment', state: {commentData: comment} }}>
-                                        <button className="comment-button">
-                                            edit
-                                        </button>
-                                    </Link>
-                                </div>
-                                <div className="post-element">
-                                    <button className="comment-button"
-                                        onClick={()=>this.props.deleteComment(comment.id)}>
-                                        delete
-                                    </button>
-                                </div>
-                            </div>
-
+                        <div className="comment-body">
+                            {comment.body}
                         </div>
-                    )}
-                    
+                        <div className="comment-author">
+                            <span className="comment-author-author">author: </span>
+                            {comment.author}
+                        </div>
 
-                </div>
+                        <div className="post-container">
+                            <div className="post-element">
+                                <button className="comment-button"
+                                    onClick={()=>this.props.upVoteComment(comment)}>
+                                    <UpVoteIcon size={20} />
+                                </button>
+                            </div>
+                            <div className="post-element">
+                                {comment.voteScore}
+                            </div>
+                            <div className="post-element">
+                                <button className="comment-button"
+                                    onClick={()=>this.props.downVoteComment(comment)}>
+                                    <DownVoteIcon size={20} />
+                                </button>
+                            </div>
+                            <div className="post-element">
+                                <Link to={{ pathname: '/post/edit-comment', state: {commentData: comment} }}>
+                                    <button className="comment-button">
+                                        edit
+                                    </button>
+                                </Link>
+                            </div>
+                            <div className="post-element">
+                                <button className="comment-button"
+                                    onClick={()=>this.props.deleteComment(comment.id)}>
+                                    delete
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                )}
+
+
+            </div>
         )
     }
 }
 
 function mapStateToProps (state){
-  return state
+    return state
 }
 
 function mapDispatchToProps(dispatch){
-  return {
-    deleteComment: (commentId) => dispatch(eraseComment(commentId)),
-    upVoteComment: (comment) => dispatch(likeComment(comment)),
-    downVoteComment: (comment) => dispatch(notLikeComment(comment)),
-  }
+    return {
+        deleteComment: (commentId) => dispatch(eraseComment(commentId)),
+        upVoteComment: (comment) => dispatch(likeComment(comment)),
+        downVoteComment: (comment) => dispatch(notLikeComment(comment)),
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comments)

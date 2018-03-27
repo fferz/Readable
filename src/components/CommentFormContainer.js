@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { initialize, reset } from 'redux-form';
 import { newComment, changeComment } from '../actions/CommentsAction'
-import { upCommentCount } from "../actions/index";
+import { upCommentCount } from "../actions/PostsAction";
 import CommentForm from './CommentForm';
 
 class CommentFormContainer extends React.Component {
@@ -34,22 +34,21 @@ class CommentFormContainer extends React.Component {
     }
 
   render() {
-      console.log('entra al commentForm Container - props', this.props)
+    console.log('entra al commentForm Container - props', this.props)
     return (
-      <div id="comment-form-container">
-        <CommentForm 
+        <div id="comment-form-container">
+        <CommentForm
             onSubmit={this.handleSubmit.bind(this)}
-            commentData={this.props.commentData}
-            />
-      </div>
+            commentData={this.props.commentData} />
+        </div>
     );
   } 
 }
 
 function mapStateToProps (state){
   
-  console.log('state - commentFormContainer', state)
-  return state
+    console.log('state - commentFormContainer', state)
+    return state
 
 }
 

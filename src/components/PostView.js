@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Route} from 'react-router-dom'
 import DownVoteIcon from 'react-icons/lib/fa/hand-o-down'
 import UpVoteIcon from 'react-icons/lib/fa/hand-o-up'
 import CommentsIcon from 'react-icons/lib/fa/comment-o'
-import { deletePost, likePost, notLikePost, fetchAPost } from '../actions'
+import { deletePost, likePost, notLikePost, fetchAPost } from '../actions/PostsAction'
 import { fetchComments } from '../actions/CommentsAction'
 import CommentFormContainer from './CommentFormContainer'
 import Comments from './Comments'
@@ -110,23 +109,23 @@ class PostView extends Component{
     }}
 
 
-function mapStateToProps (state){
+function mapStateToProps (state, ownProps){
   
-  console.log('state - post.js (mapstateToProps)', state)
-  //let array = Object.values(postReducer)
-  return state
+    console.log('state POSTVIEW - post.js (mapstateToProps)', state)
+    //let array = Object.values(postReducer)
+    return state
 
 
 }
 
 function mapDispatchToProps(dispatch){
-  return {
-    saveAPost: (postId) => dispatch(fetchAPost(postId)),
-    saveComments: (postId) => dispatch(fetchComments(postId)),
-    deletePost: (postId) => dispatch(deletePost(postId)),
-    upVotePost: (post) => dispatch(likePost(post)),
-    downVotePost: (post) => dispatch(notLikePost(post)),
-  }
+    return {
+        saveAPost: (postId) => dispatch(fetchAPost(postId)),
+        saveComments: (postId) => dispatch(fetchComments(postId)),
+        deletePost: (postId) => dispatch(deletePost(postId)),
+        upVotePost: (post) => dispatch(likePost(post)),
+        downVotePost: (post) => dispatch(notLikePost(post)),
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostView)

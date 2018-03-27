@@ -1,4 +1,4 @@
-export const SAVE_CATEGORIES = 'SAVE_CATEGORIES'
+import { SAVE_CATEGORIES } from './actionTypes'
 
 /* save categories in store */
 export function fetchCategories(){
