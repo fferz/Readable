@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import DownVoteIcon from 'react-icons/lib/fa/hand-o-down'
 import UpVoteIcon from 'react-icons/lib/fa/hand-o-up'
 import CommentsIcon from 'react-icons/lib/fa/comment-o'
@@ -13,14 +13,6 @@ class Post extends Component{
 
     const posts = this.props.posts ? this.props.posts : this.props.postReducer.posts
 
-    let category = ''
-    if (this.props.posts === undefined){
-        category = ''
-    } else if (this.props.posts.length === 0) {
-        category = ''
-    } else {
-        category = this.props.posts[0].category
-    }
 
         return(
         <div className="post-content">
@@ -28,9 +20,8 @@ class Post extends Component{
             {posts.map((post) =>
                 <div key={post.id}>
                     <div className="post-title">
-                        <Link to={{ pathname: `/post/${post.id}`, state: {postDataView: post} }}>
-                            {post.title}
-                        </Link>
+                        {post.title}
+
                     </div>
                     <div className="post-author">{post.author}</div>
                     <div className="post-category">category:{post.category}</div>
@@ -76,6 +67,6 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post))
 
 

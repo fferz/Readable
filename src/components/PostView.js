@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import DownVoteIcon from 'react-icons/lib/fa/hand-o-down'
 import UpVoteIcon from 'react-icons/lib/fa/hand-o-up'
 import CommentsIcon from 'react-icons/lib/fa/comment-o'
@@ -128,5 +128,5 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostView)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostView))
 
