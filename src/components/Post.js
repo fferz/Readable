@@ -20,10 +20,13 @@ class Post extends Component{
             {posts.map((post) =>
                 <div key={post.id}>
                     <div className="post-title">
-                        {post.title}
-
+                        <Link to={`/post/${post.id}`} >
+                            {post.title}
+                        </Link>
                     </div>
-                    <div className="post-author">{post.author}</div>
+                    <div className="post-author">
+                         {post.author}
+                    </div>
                     <div className="post-category">category:{post.category}</div>
                     <div className="post-container">
                         <div className="post-element">

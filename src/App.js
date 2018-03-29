@@ -26,8 +26,14 @@ class App extends Component {
                 {this.props.postReducer.posts.filter((post) => post.category === match.params.categoryName ).map((p) =>
                     <div key={p.id}>
                         <Link to={`${match.url}/${p.id}`}>
-                            <Post posts={[].concat(p)} />
+                            <div className="post-title">
+                                {p.title}
+                            </div>
                         </Link>
+                        <div className="post-author">
+                            {p.author}
+                        </div>
+                        <div className="post-category">category:{p.category}</div>
                     </div>
                 )}
             <Route path={`/category/:categoryName/:postId`} component={this.Post}/>
@@ -41,18 +47,18 @@ class App extends Component {
 
     PostId = ({match}) => (
         <div>
-            {this.props.postReducer.posts.find(({id}) => id === match.params.postId) === undefined ?
-                <PostView
-                    posDataView={this.props.postReducer.posts.find(({id}) => id === match.params.postId)}/> :
-                this.NoMatchPostId}
+            {this.props.postReducer.posts.find(({id}) => id === match.params.postId)
+                ? <PostView
+                    postDataView={this.props.postReducer.posts.find(({id}) => id === match.params.postId)}/>
+                : this.NoMatchPostId()}
         </div>
     )
 
-    NoMatchPostId = () => {
+    NoMatchPostId = () => (
         <div>
             <h1>the post that you are looking for does not exist :(</h1>
         </div>
-    }
+    )
 
     render() {
         console.log('Props (render App)', this.props)
