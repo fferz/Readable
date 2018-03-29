@@ -23,16 +23,14 @@ class App extends Component {
     CategoryPosts = ({match}) => (
         <div>
             <h1>{match.params.categoryName}</h1>
-            <ul>
                 {this.props.postReducer.posts.filter((post) => post.category === match.params.categoryName ).map((p) =>
-                    <li key={p.id}>
+                    <div key={p.id}>
                         <Link to={`${match.url}/${p.id}`}>
                             <Post posts={[].concat(p)} />
                         </Link>
-                    </li>
+                    </div>
                 )}
-            </ul>
-            <Route path={`:categoryName/:postId`} component={this.Post}/>
+            <Route path={`/category/:categoryName/:postId`} component={this.Post}/>
         </div>
     )
 
@@ -41,8 +39,19 @@ class App extends Component {
             postDataView={this.props.postReducer.posts.find(({id}) => id === match.params.postId)}/>
     )
 
-    PostId = ({match}) => {
+    PostId = ({match}) => (
+        <div>
+            {this.props.postReducer.posts.find(({id}) => id === match.params.postId) === undefined ?
+                <PostView
+                    posDataView={this.props.postReducer.posts.find(({id}) => id === match.params.postId)}/> :
+                this.NoMatchPostId}
+        </div>
+    )
 
+    NoMatchPostId = () => {
+        <div>
+            <h1>the post that you are looking for does not exist :(</h1>
+        </div>
     }
 
     render() {
@@ -56,34 +65,25 @@ class App extends Component {
 
                 <div className="sidenav">
                     {this.props.categoryReducer.categories.map( category =>
-                    <ul>
-                        <li>
-                            <Link
-                                to={`/${category.name}`}
-                                className="link-category">
-                                {category.name}
-                            </Link>
-                        </li>
-                    </ul>)}
+                        <Link
+                            to={`/category/${category.name}`}
+                            className="link-category">
+                            {category.name}
+                        </Link>
+                    )}
                     <div>
-                        <ul>
-                            <li>
-                                <Link
-                                    to="/most-voted">
-                                    most voted
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    to="/most-recent">
-                                    most recent
-                                </Link>
-                            </li>
-                        </ul>
+                        <Link
+                            to="/most-voted">
+                            most voted
+                        </Link>
+
+                        <Link
+                            to="/most-recent">
+                            most recent
+                        </Link>
+
                     </div>
                 </div>
-
-
 
                 <div className="content">
 
@@ -100,7 +100,9 @@ class App extends Component {
                             <PostFormContainer/>
                         )}/>
 
-                        <Route  path="/:categoryName" component={this.CategoryPosts} />
+                        <Route  path={`/post/:postId`} component={this.PostId} />
+
+                        <Route  path="/category/:categoryName" component={this.CategoryPosts} />
 
                         <Route  path="/edit" render={() => (
                             <PostFormContainer
@@ -108,18 +110,24 @@ class App extends Component {
                              />
                         )}/>
 
-                        <Route  path={`/post/:postId`} render={() => (
-                            <PostView
-                                postDataView={this.props.location.state.postDataView}/>
-
-                            )} />
-
                         <Route  path="/post/edit-comment" render={() => (
                             <CommentFormContainer
                               commentData={this.props.location.state.commentData} />
                         )} />
 
-                        <Route path="/most-voted" component={this.MostVoted} />
+                        <Route path="/most-voted" render={() =>
+                            <div>
+                                <h1>the most voted posts</h1>
+                                <Post
+                                    posts={[].concat(this.props.postReducer.posts).sort(
+                                        function (a, b) {
+                                            if (a.voteScore < b.voteScore) { return 1 };
+                                            if (a.voteScore > b.voteScore) { return -1 };
+                                            return 0;
+                                        }
+                                    )}/>
+                            </div>
+                        } />
 
                         <Route path="/most-recent" render={() => (
                             <div>
@@ -137,8 +145,6 @@ class App extends Component {
 
                     </Switch>
 
-
-
                     <div className="new-post">
                         <Link
                             to="/create"
@@ -153,21 +159,6 @@ class App extends Component {
                         ><GoHomeIcon size={50} color="black"/>
                       </Link>
                     </div>
-                    <div>
-                        <Link
-                            to="/most-voted">
-                            most voted
-                        </Link>
-                    </div>
-                    <div>
-                        <Link
-                            to="/most-recent">
-                            most recent
-                        </Link>
-                    </div>
-                
-                    
-
                 </div>
             </div>
         </Router>
