@@ -87,7 +87,7 @@ class PostView extends Component{
                         </button>
                     </div>
                     <div className="post-element">
-                        <Link to={{ pathname: `/post/${post.id}/edit`, state: {postData: post} }}>
+                        <Link to={`/post/${post.id}/edit`}>
                             <button >edit</button>
                         </Link>
                     </div>

@@ -42,7 +42,7 @@ class Comments extends React.Component {
                                 </button>
                             </div>
                             <div className="post-element">
-                                <Link to={{ pathname: '/post/edit-comment', state: {commentData: comment} }}>
+                                <Link to={{ pathname: `/post/${comment.parentId}/edit-comment`, state: {commentData: comment} }}>
                                     <button className="comment-button">
                                         edit
                                     </button>

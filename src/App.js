@@ -115,14 +115,16 @@ class App extends Component {
                             <PostFormContainer/>
                         )}/>
 
-                        <Route path="/post/:postId/edit" component={this.PostEdit}/>
 
-                        <Route path={`/post/:postId`} component={this.PostId} />
-
-                        <Route path="/post/edit-comment" render={() => (
+                        <Route path="/post/:postId/edit-comment" render={() => (
                             <CommentFormContainer
                               commentData={this.props.location.state.commentData} />
                         )} />
+                        <Route path="/post/:postId/edit" component={this.PostEdit}/>
+
+                        <Route path="/post/:postId" component={this.PostId} />
+
+                        
 
                         <Route path="/most-voted" render={() =>
                             <div>
