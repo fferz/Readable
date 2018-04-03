@@ -6,7 +6,7 @@ const initialState = {
 }
 
 export function commentReducer (state = initialState, action) {
-    const { comment, commentId, comments, newComment, postId } = action
+    const { comment, commentId, comments, newComment } = action
     switch (action.type) {
 
         case SAVECOMMENTS_INSTORE :
