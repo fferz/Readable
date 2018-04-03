@@ -36,7 +36,7 @@ class App extends Component {
                         <div className="post-category">category:{p.category}</div>
                     </div>
                 )}
-            <Route path={`/category/:categoryName/:postId`} component={this.Post}/>
+            <Route path={`/:categoryName/:postId`} component={this.Post}/>
         </div>
     )
 
@@ -50,6 +50,15 @@ class App extends Component {
             {this.props.postReducer.posts.find(({id}) => id === match.params.postId)
                 ? <PostView
                     postDataView={this.props.postReducer.posts.find(({id}) => id === match.params.postId)}/>
+                : this.NoMatchPostId()}
+        </div>
+    )
+
+    PostEdit = ({match}) => (
+        <div>
+            {this.props.postReducer.posts.find(({id}) => id === match.params.postId)
+                ? <PostFormContainer
+                    postData={this.props.postReducer.posts.find(({id}) => id === match.params.postId)}/>
                 : this.NoMatchPostId()}
         </div>
     )
@@ -72,7 +81,7 @@ class App extends Component {
                 <div className="sidenav">
                     {this.props.categoryReducer.categories.map( category =>
                         <Link
-                            to={`/category/${category.name}`}
+                            to={`/${category.name}`}
                             className="link-category">
                             {category.name}
                         </Link>
@@ -106,17 +115,11 @@ class App extends Component {
                             <PostFormContainer/>
                         )}/>
 
-                        <Route  path={`/post/:postId`} component={this.PostId} />
+                        <Route path="/post/:postId/edit" component={this.PostEdit}/>
 
-                        <Route  path="/category/:categoryName" component={this.CategoryPosts} />
+                        <Route path={`/post/:postId`} component={this.PostId} />
 
-                        <Route  path="/edit" render={() => (
-                            <PostFormContainer
-                              postData={this.props.location.state && this.props.location.state.postData}
-                             />
-                        )}/>
-
-                        <Route  path="/post/edit-comment" render={() => (
+                        <Route path="/post/edit-comment" render={() => (
                             <CommentFormContainer
                               commentData={this.props.location.state.commentData} />
                         )} />
@@ -148,6 +151,8 @@ class App extends Component {
                                     )} />
                             </div>
                         )} />
+
+                        <Route path="/:categoryName" component={this.CategoryPosts} />
 
                     </Switch>
 

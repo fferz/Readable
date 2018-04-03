@@ -44,7 +44,7 @@ class Post extends Component{
                             </button>
                         </div>
                         <div className="post-element">
-                            <Link to={{ pathname: `/edit`, state: {postData: post} }}>
+                            <Link to={{ pathname: `/post/${post.id}/edit`, state: {postData: post} }}>
                                 <button >edit</button>
                             </Link>
                         </div>
