@@ -12,13 +12,11 @@ class PostFormContainer extends React.Component {
             editValues.id = values.id
             editValues.title = values.title
             editValues.body = values.body
-            console.log('voy a editPost', editValues)
             this.props.editPost(editValues)
 
         } else {
             values.id = this.newId().toString()
             values.timestamp = Date.now()
-            console.log('voy a create new post', values)
             this.props.addPostToStore(values)
             this.props.clearForm()
         }
@@ -30,7 +28,6 @@ class PostFormContainer extends React.Component {
     }
 
     render() {
-        console.log('entra al postForm COntainer - props', this.props)
 
         return (
             <div id="app">

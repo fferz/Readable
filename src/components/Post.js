@@ -20,7 +20,7 @@ class Post extends Component{
             {posts.map((post) =>
                 <div key={post.id}>
                     <div className="post-title">
-                        <Link to={`/post/${post.id}`} >
+                        <Link to={`/${post.category}/${post.id}`} >
                             {post.title}
                         </Link>
                     </div>
@@ -44,7 +44,7 @@ class Post extends Component{
                             </button>
                         </div>
                         <div className="post-element">
-                            <Link to={ `/post/${post.id}/edit`}>
+                            <Link to={ `/${post.category}/${post.id}/edit`}>
                                 <button >edit</button>
                             </Link>
                         </div>

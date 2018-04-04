@@ -18,8 +18,6 @@ class PostView extends Component{
     }
 
     componentDidMount(){
-
-        console.log('component DID mount',this.props.postDataView.id)
         this.props.saveAPost(this.props.postDataView.id)
         this.props.saveComments(this.props.postDataView.id)
         
@@ -34,10 +32,6 @@ class PostView extends Component{
     }
 
     render(){
-        console.log('props (PostView)', this.props.postDataView)
-        console.log('state (PostView)', this.props.state)
-        console.log('props.state', this.props)
-        console.log('EL POST', this.props.postReducer.post)
 
         let showCreateComment = null
         if (this.state.newCommentFlag === false) {
@@ -87,7 +81,7 @@ class PostView extends Component{
                         </button>
                     </div>
                     <div className="post-element">
-                        <Link to={`/post/${post.id}/edit`}>
+                        <Link to={`/${post.category}/${post.id}/edit`}>
                             <button >edit</button>
                         </Link>
                     </div>
@@ -111,8 +105,6 @@ class PostView extends Component{
 
 function mapStateToProps (state, ownProps){
   
-    console.log('state POSTVIEW - post.js (mapstateToProps)', state)
-    //let array = Object.values(postReducer)
     return state
 
 

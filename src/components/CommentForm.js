@@ -16,7 +16,6 @@ class CommentForm extends React.Component {
                 timestamp: this.props.commentData.timestamp,
                 voteScore: this.props.commentData.voteScore,
             }
-            console.log('initData loaded in CommentForm', initData)
             this.props.initialize(initData)
         }
     }
@@ -27,7 +26,6 @@ class CommentForm extends React.Component {
 
     render(){
         const { handleSubmit } = this.props
-        console.log('postData en CommentForm', this.props)
         return(
             <div className="comment-form">
                 <form id="new-comment-formid" onSubmit={handleSubmit} >

@@ -34,7 +34,6 @@ class CommentFormContainer extends React.Component {
     }
 
   render() {
-    console.log('entra al commentForm Container - props', this.props)
     return (
         <div id="comment-form-container">
         <CommentForm
@@ -47,7 +46,6 @@ class CommentFormContainer extends React.Component {
 
 function mapStateToProps (state){
   
-    console.log('state - commentFormContainer', state)
     return state
 
 }

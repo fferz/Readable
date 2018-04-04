@@ -16,7 +16,6 @@ class PostForm extends React.Component {
                 id: this.props.postData.id,
                 voteScore: this.props.postData.voteScore,
             }
-            console.log('initData loaded in PostForm', initData)
             this.props.initialize(initData)
         }
     }
@@ -27,7 +26,6 @@ class PostForm extends React.Component {
 
     render(){
         const { handleSubmit } = this.props
-        console.log('postData en PostForm', this.props)
     return (
         <div className="new-post-content">
             <form id="new-post-formId" onSubmit={handleSubmit}>

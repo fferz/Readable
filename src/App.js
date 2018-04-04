@@ -71,8 +71,6 @@ class App extends Component {
     )
 
     render() {
-        console.log('Props (render App)', this.props)
-        console.log('State (render App)', this.state)
 
     var i =1
     return (
@@ -117,13 +115,13 @@ class App extends Component {
                         )}/>
 
 
-                        <Route path="/post/:postId/edit-comment" render={() => (
+                        <Route path="/:category/:postId/edit-comment" render={() => (
                             <CommentFormContainer
                               commentData={this.props.location.state.commentData} />
                         )} />
-                        <Route path="/post/:postId/edit" component={this.PostEdit}/>
+                        <Route path="/:category/:postId/edit" component={this.PostEdit}/>
 
-                        <Route path="/post/:postId" component={this.PostId} />
+                        <Route path="/:category/:postId" component={this.PostId} />
 
                         
 

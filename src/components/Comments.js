@@ -8,7 +8,6 @@ import {  eraseComment, likeComment, notLikeComment } from '../actions/CommentsA
 class Comments extends React.Component {
 
     render(){
-        console.log('comments', this.props)
 
         return(
             <div className="post-view-comments">
